@@ -5,7 +5,7 @@
 ![UNSA](https://img.shields.io/badge/UNSA-Economía-2b2d42?style=flat-square)
 ![Licencia](https://img.shields.io/badge/Licencia-Academic-success?style=flat-square)
 
-> **Trabajo de Investigación de Fin de Curso (TIF) / Tesis**  
+> **Trabajo de Investigación de Fin de Curso de Econometría 1**  
 > **Universidad Nacional de San Agustín de Arequipa (UNSA)** — *Facultad de Economía*
 
 ---
@@ -41,7 +41,7 @@ Para replicar esta investigación desde cero en cualquier computadora con Stata 
 ### 1. Clonar o descargar este repositorio
 Descarga este proyecto como ZIP o clónalo desde tu terminal:
 ```bash
-git clone https://github.com/aatilio/ena2024-arroz-peru.git
+git clone https://github.com/aatilio/ena-arroz-2024.git
 ```
 
 ### 2. Configurar tu ruta de trabajo en Stata
