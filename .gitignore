@@ -1,0 +1,7 @@
+# Ignorar bases de datos pesadas del INEI (se descargan con el script)
+*.dta
+*.zip
+Descargas_INEI_ZIP/
+973-Modulo*/
+Resultados/
+*.log
