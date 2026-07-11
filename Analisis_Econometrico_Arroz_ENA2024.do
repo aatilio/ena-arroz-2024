@@ -42,7 +42,7 @@ capture log close
 cls
 
 * Directorio de trabajo (NOTA: cambiar según el equipo)
-cd "PEGAR_AQUI_LA_RUTA_DE_TU_CARPETA"
+cd "D:\UNSA\5 SEMESTER 2026-A\ECONOMETRICS 1\TIF\ena-arroz-2024"
 
 * Carpetas de salida agrupadas dentro de "Resultados"
 capture mkdir "Resultados"
@@ -55,9 +55,20 @@ capture mkdir "Resultados\Archivo_log"
 capture log close
 log using "Resultados\Archivo_log\Log_Resultados_TIF.log", replace text
 
-* Paquetes externos (se instalan una sola vez; capture evita que falle sin internet)
+
+* ── Paquetes externos ───────────────────────────────────────────────────────
+* Se instalan solo si no están disponibles. "capture" evita que el do-file se detenga
+* si no hay internet o si el paquete ya está instalado.
 capture which esttab
-if _rc  capture ssc install estout     // Para tablas descriptivas y comparativas
+if _rc {
+    capture ssc install estout // Para tablas descriptivas y comparativas
+}
+
+capture which outreg2
+if _rc {
+    capture ssc install outreg2 // Para exportar regresiones a Word
+}
+
 
 * ── Verificación de existencia de datos / Descarga Automática ────────────────
 * Si el usuario o revisor corre este script sin haber descargado previamente
@@ -66,16 +77,14 @@ capture confirm file "973-Modulo1895\03_CAP200AB.dta"
 local rc1 = _rc
 capture confirm file "973-Modulo1911\19_CAP1100.dta"
 local rc2 = _rc
+capture confirm file "973-Modulo1907\15_CAP700.dta"
+local rc3 = _rc
 
-if (`rc1' != 0 | `rc2' != 0) {
-    display as yellow _n "⚠️ No se detectaron las carpetas oficiales del INEI en el directorio."
-    display as yellow "   Iniciando descarga y descompresión automática (ENA 2024)..."
+if (`rc1' != 0 | `rc2' != 0 | `rc3' != 0) {
+    display as yellow _n "No se detectaron todas las carpetas oficiales del INEI en el directorio."
+    display as yellow "Iniciando descarga y descompresión automática (ENA 2024)..."
     do "Descarga_Microdatos_ENA2024.do"
 }
-
-capture which outreg2
-if _rc  capture ssc install outreg2    // Para exportar regresiones a Word
-
 
 * ══════════════════════════════════════════════════════════════════════════════
 * PARTE II: CARGA Y MERGE DE LOS DOS CAPÍTULOS (ARCHIVOS .DTA)
@@ -327,16 +336,41 @@ drop  if missing(semillas_certificadas)
 
 di "Observaciones válidas tras depuración: " _N
 
+* ── Merge con CAP700 (variable instrumental) ────────────────────────────────
+* Se realiza AQUÍ, antes del keep, mientras las claves de identificación
+* (CCDD CCPP CCDI NSEGM ID_PROD UA CODIGO) todavía están disponibles en memoria.
+preserve
+    use "973-Modulo1907\15_CAP700.dta", clear
+    keep CCDD CCPP CCDI NSEGM ID_PROD UA CODIGO P702_4
+    rename P702_4 iv_capacitacion_semillas
+    collapse (max) iv_capacitacion_semillas, ///
+        by(CCDD CCPP CCDI NSEGM ID_PROD UA CODIGO)
+    tempfile cap700
+    save `cap700'
+restore
+
+merge m:1 CCDD CCPP CCDI NSEGM ID_PROD UA CODIGO using `cap700'
+tab _merge
+* IMPORTANTE: eliminar filas de CAP700 que no pertenecen a la muestra de arroz
+* (_merge==2 son obs solo en CAP700, no en la base de arroz → contaminan el dataset)
+drop if _merge == 2
+drop _merge
+
+tab iv_capacitacion_semillas, missing
+label variable iv_capacitacion_semillas "IV: Capacitación en semillas (CAP700)"
+
 * Conservar solo las variables necesarias
 * NOMBREDD  → variable de texto (solo referencia visual, no entra al modelo)
 * departamento → variable numérica con etiquetas, usada con i.departamento en la regresión
 * Se conservan ambas: NOMBREDD para saber el nombre del departamento al inspeccionar datos,
 * y departamento para la regresión. CCDD se conserva como identificador original.
+* iv_capacitacion_semillas → instrumento para la prueba de endogeneidad (Parte XIV).
 keep ln_rendimiento semillas_certificadas fuente_agua ///
      sequia lluvias_destiempo plagas_enfermedades otros_factores ///
      mujer_productora educacion_superior edad_productor ///
      departamento ///
-     CCDD NOMBREDD produccion_kg rendimiento
+     CCDD NOMBREDD produccion_kg rendimiento ///
+     iv_capacitacion_semillas
 
 * Ordenar columnas igual que la regresión: Y → X1 → controles → depto → resto al final
 order ln_rendimiento semillas_certificadas fuente_agua ///
@@ -597,47 +631,66 @@ esttab Modelo_Robusto using "Resultados\Tablas\Modelo_Definitivo.tex", replace /
               13.departamento "Piura" 14.departamento "San Martin" ///
               15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante")
 
-
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XIII: PRUEBAS DE VALIDEZ ESTADÍSTICA CONJUNTA (TEST F)
+* PARTE XIII: PRUEBAS DE SIGNIFICANCIA CONJUNTA
 * ══════════════════════════════════════════════════════════════════════════════
-* Se realizan pruebas F por subgrupos teóricos para demostrar que cada bloque
-* de variables aporta poder explicativo al modelo de forma conjunta.
-*
-* Nota técnica: se re-estima el modelo en silencio (quietly) para garantizar
-* que las estimaciones estén activas en memoria después de outreg2.
+* Regla general de interpretación:
+* H0: los coeficientes del bloque son iguales a cero.
+* H1: al menos un coeficiente del bloque es distinto de cero.
+* Si Prob > F <= 0.05, se rechaza H0 y el bloque es conjuntamente significativo.
 
 quietly reg ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
     mujer_productora educacion_superior edad_productor ///
     ib14.departamento, vce(robust)
 
-* ── 1. Significancia conjunta: Factores climáticos ───────────────────────────
-* H₀: β_sequia = β_lluvias = β_plagas = β_otros = 0
-* H₁: Al menos un factor climático influye en el rendimiento
-* Si Prob > F ≤ 0.05 → los choques climáticos son conjuntamente significativos
+* Factores climáticos
 test sequia lluvias_destiempo plagas_enfermedades otros_factores
 
-* ── 2. Significancia conjunta: Características del productor/a ───────────────
-* H₀: β_mujer = β_educación = β_edad = 0
-* H₁: Al menos una característica del productor influye en el rendimiento
-* Si Prob > F ≤ 0.05 → el capital humano es conjuntamente significativo
+* Características del productor/a
 test mujer_productora educacion_superior edad_productor
 
-* ── 3. Significancia conjunta: Efectos fijos departamentales ─────────────────
-* H₀: todos los coeficientes departamentales = 0
-* H₁: al menos un departamento tiene un efecto diferencial
-* Si Prob > F ≤ 0.05 → se justifica incluir efectos fijos regionales
-* Nota: se usa testparm porque los departamentos entran como i.departamento
+* Efectos fijos departamentales
 testparm i.departamento
 
-* ── 4. Significancia global: todas las variables explicativas ────────────────
-* Esta prueba desglosa la significancia individual de cada variable
-* La fila "All" valida la significancia conjunta global del modelo completo
+* Significancia conjunta global de las variables principales
 test semillas_certificadas fuente_agua sequia lluvias_destiempo ///
     plagas_enfermedades otros_factores mujer_productora ///
     educacion_superior edad_productor, mtest(noadjust)
 
+
+* ══════════════════════════════════════════════════════════════════════════════
+* PARTE XIV: DISCUSIÓN SOBRE ENDOGENEIDAD
+* ══════════════════════════════════════════════════════════════════════════════
+* H0: semillas_certificadas es exógena.
+* H1: semillas_certificadas es endógena.
+*
+* ── ¿Por qué no se aplica la prueba formal de Durbin-Wu-Hausman? ─────────────
+* Se intentó utilizar la variable P702_4 del CAP700 (recepción de capacitación
+* en semillas) como instrumento para semillas_certificadas. Sin embargo, el
+* CAP700 solo cubre 186 de las 1,992 observaciones válidas de arroz cáscara
+* (9.3% de la muestra). La prueba DWH aplicada sobre esa submuestra no puede
+* generalizarse al 90.7% restante, por lo que su resultado no es representativo.
+* Adicionalmente, el instrumento mostró signos de debilidad (errores estándar
+* del 2SLS superiores a 60,000 veces el coeficiente estimado), lo que invalida
+* su uso como variable instrumental.
+*
+* ── Justificación de exogeneidad en base teórica ─────────────────────────────
+* La adopción de semillas certificadas está determinada principalmente por
+* características observables del productor ya controladas en el modelo:
+*   • Acceso a riego (fuente_agua)
+*   • Factores climáticos (sequía, lluvias, plagas)
+*   • Nivel educativo (educacion_superior)
+*   • Ubicación geográfica (i.departamento)
+* No existe un mecanismo teórico claro que genere correlación entre
+* semillas_certificadas y el término de error del modelo, por lo que se
+* asume exogeneidad condicional y el estimador OLS con errores robustos
+* (Parte XII) es consistente y apropiado para la inferencia.
+
+di as text _n "PARTE XIV: No se realiza prueba formal de endogeneidad."
+di as text "Cobertura del instrumento CAP700: solo 186 de 1,992 obs (9.3%)."
+di as text "La exogeneidad de semillas_certificadas se justifica teóricamente."
+di as text "El modelo definitivo (OLS robusto, Parte XII) es válido."
 
 * ══════════════════════════════════════════════════════════════════════════════
 * CIERRE DEL DO-FILE

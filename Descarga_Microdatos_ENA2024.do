@@ -10,8 +10,8 @@ display as result _n "═══════════════════�
 display as result " DESCARGANDO Y DESCOMPRIMIENDO MÓDULOS ENA 2024 (INEI)..."
 display as result "══════════════════════════════════════════════════════════════════"
 
-* 2. BUCLE SIMPLE PARA DESCARGAR Y DESCOMPRIMIR LOS DOS MÓDULOS (1895 Y 1911)
-foreach mod in 1895 1911 {
+* 2. BUCLE SIMPLE PARA DESCARGAR Y DESCOMPRIMIR LOS MÓDULOS (1895, 1907 Y 1911)
+foreach mod in 1895 1907 1911 {
     display as text _n "--> Procesando Módulo `mod'..."
     
     * Descargar ZIP oficial desde el servidor del INEI
@@ -34,6 +34,10 @@ if _rc == 0  display as green "OK"
 if _rc != 0  display as red   "No encontrado"
 
 capture confirm file "973-Modulo1911\19_CAP1100.dta"
+if _rc == 0  display as green "OK"
+if _rc != 0  display as red   "No encontrado"
+
+capture confirm file "973-Modulo1907\15_CAP700.dta"
 if _rc == 0  display as green "OK"
 if _rc != 0  display as red   "No encontrado"
 
