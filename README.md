@@ -1,4 +1,4 @@
-# 🌾 Efecto del Uso de Semillas Certificadas sobre el Rendimiento Agrícola del Arroz Cáscara en el Perú (ENA 2024)
+# Efecto del Uso de Semillas Certificadas sobre el Rendimiento Agrícola del Arroz Cáscara en el Perú (ENA 2024)
 
 ![Stata](https://img.shields.io/badge/Stata-16.0%2B-1f5b8c?style=flat-square&logo=stata&logoColor=white)
 ![INEI](https://img.shields.io/badge/Datos-ENA_2024-e63946?style=flat-square)
