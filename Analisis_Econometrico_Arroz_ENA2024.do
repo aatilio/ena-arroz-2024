@@ -42,7 +42,7 @@ capture log close
 cls
 
 * Directorio de trabajo (NOTA: cambiar según el equipo)
-cd "PEGAR_AQUI_LA_RUTA_DE_TU_CARPETA"
+cd "D:\UNSA\5 SEMESTER 2026-A\ECONOMETRICS 1\TIF\ena-arroz-2024"
 
 * Carpetas de salida agrupadas dentro de "Resultados"
 capture mkdir "Resultados"

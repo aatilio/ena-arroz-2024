@@ -7,6 +7,9 @@ Resultados/
 *.log
 *.do.stswp
 
+paper.pdf
+plantilla.pdf
+
 # Archivos auxiliares de compilación LaTeX
 *.aux
 *.out
