@@ -217,7 +217,7 @@ replace fuente_agua = 0 if P212 == 1
 replace fuente_agua = 1 if inlist(P212, 2, 3, 4, 5, 6)
 label define fuenteagua 0 "Solo lluvia (secano)" 1 "Otra fuente de agua", replace
 label values fuente_agua fuenteagua
-label variable fuente_agua "Acceso a riego"
+label variable fuente_agua "Fuente de agua"
 
 tab fuente_agua P212   // Validación cruzada
 
@@ -324,6 +324,36 @@ drop  if missing(ln_rendimiento)
 * 3. semillas_certificadas missing: la variable principal no puede estar vacía en el modelo
 count if missing(semillas_certificadas)
 drop  if missing(semillas_certificadas)
+
+* ──────────────────────────────────────────────────────────────────────────────
+* 4. DEPURACIÓN DE CELDAS O GRUPOS UNITARIOS (Singletons / N <= 1)
+* ──────────────────────────────────────────────────────────────────────────────
+* Según Correia (2015), las categorías con una sola observación (singletons) en
+* modelos con efectos fijos o dummies deben eliminarse obligatoriamente, ya que
+* generan un sobreajuste artificial (residuo cero) y no aportan información para
+* identificar las pendientes ni la varianza del modelo.
+
+local variables_categoricas departamento semillas_certificadas fuente_agua ///
+                            sequia lluvias_destiempo plagas_enfermedades ///
+                            otros_factores mujer_productora educacion_superior
+
+foreach var of local variables_categoricas {
+    * Paso 1: Contar cuántas observaciones tiene cada categoría de la variable
+    tempvar conteo_celda
+    bysort `var': gen `conteo_celda' = _N if !missing(`var')
+    
+    * Paso 2: Identificar si existen categorías con 1 sola observación (o menos)
+    count if `conteo_celda' <= 1 & !missing(`var')
+    
+    * Paso 3: Si se detectan celdas unitarias (N <= 1), eliminarlas e informar en consola
+    if r(N) > 0 {
+        display as yellow "   -> [Depuración N<=1] Eliminando " r(N) ///
+                          " observación(es) unitaria(s) en la variable: `var'"
+        drop if `conteo_celda' <= 1
+    }
+    
+    drop `conteo_celda'
+}
 
 di "Observaciones válidas tras depuración: " _N
 
@@ -433,14 +463,16 @@ drop productor_mayor   // Ya no se necesita; la edad continua va al modelo
 * PARTE VIII: TABLAS DESCRIPTIVAS (EXPORTACIÓN RTF — Tabla 1)
 * ══════════════════════════════════════════════════════════════════════════════
 
-estpost summarize ///
-    ln_rendimiento rendimiento produccion_kg ///
-    semillas_certificadas fuente_agua ///
+local vars_finales ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
     mujer_productora educacion_superior edad_productor
 
+estpost summarize `vars_finales'
+
 esttab using "Resultados\Tablas\Tabla_1_Descriptiva_General.rtf", replace ///
-    cells("count mean sd min max") label ///
+    cells("mean(fmt(4)) sd(fmt(4)) min(fmt(4)) max(fmt(4))") ///
+    label nonumber noobs nomtitle ///
+    collabels("Media" "Desv. Est." "Mín." "Máx.") ///
     title("Tabla 1. Estadísticas descriptivas")
 
 

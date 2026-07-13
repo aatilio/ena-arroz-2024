@@ -51,22 +51,31 @@
     \vspace{0.8cm}
     
     {\normalsize Ccanchi Quispe, Alex Nicolas; Condori Arapa, Alan Atilio; Flores Condo, Maribel; López Pérez, Fabinho Jorge; Mamani Calisaya, Eduardo Fabian; Medina Huarsaya, Christopher Luis; Morante Torres, Carlos Estefano; Quispe Castillo, Rose Sthefany; Suri Huamani, Dayana Betsabeth; Villavicencio Chire, Sebastian Enrique; Yauri Moran, Gabriel Alexander \par}
-    \vspace{2.0cm}
+    \vspace{0.6cm}
     
-    \begin{minipage}{0.85\linewidth}
+    \begin{minipage}{0.88\linewidth}
       \small
+      \setstretch{1.12}
+      \begin{center}
+        \textbf{\large Resumen}
+      \end{center}
+      \vspace{-0.15cm}
+      El presente estudio evalúa el impacto del uso de semillas certificadas sobre el rendimiento agrícola del cultivo de arroz cáscara en el Perú durante la campaña 2024. A partir de una muestra balanceada de 1,991 parcelas provenientes de la Encuesta Nacional Agropecuaria (ENA 2024 - INEI), se estima un modelo de regresión lineal múltiple por Mínimos Cuadrados Ordinarios (MCO) con errores estándar robustos ante heterocedasticidad. Controlando por disponibilidad hídrica, choques climáticos, variables sociodemográficas y efectos fijos departamentales, los resultados demuestran que la adopción de semillas certificadas incrementa positiva y significativamente el rendimiento agrícola en un 9.82 \% ($\Delta\% = +10.32\%$, $p < 0.01$), \textit{ceteris paribus}. Se concluye que el acceso a semillas certificadas constituye un factor determinante y estratégico para el cierre de brechas de productividad y competitividad arrocera a nivel nacional.
+
+      \vspace{0.18cm}
+      \noindent \textbf{Palabras clave:} semillas certificadas, rendimiento agrícola, arroz cáscara, ENA 2024, regresión múltiple MCO.
+
+      \vspace{0.3cm}
       \begin{center}
         \textbf{\large Abstract}
       \end{center}
-      \vspace{-0.2cm}
-      \setstretch{1.2} 
-      El presente estudio analiza la relación entre el acceso a servicios de agua y saneamiento y el gasto per cápita de los hogares peruanos durante el año 2025, bajo la perspectiva de la economía ambiental y el desarrollo sustentable. La investigación tiene una finalidad aplicada, de índole explicativa-correlacional, cuantitativa, no experimental y de corte transversal, utilizando la información proveniente de la Encuesta Nacional de Hogares (ENAHO), específicamente de los módulos 1 y 34 (Características de la Vivienda y del Hogar y Sumarias, respectivamente). Metodológicamente, se empleó un modelo de regresión lineal múltiple estimado mediante Mínimos Cuadrados Ordinarios (MCO), considerando como variable dependiente el logaritmo del gasto mensual por individuo del hogar y, como variables independientes, el acceso a servicios de agua y saneamiento. De la misma manera, se incorporaron variables de control relacionadas con el acceso a electricidad, estrato geográfico y características de la vivienda. Los resultados ponen de manifiesto la relación positiva y estadísticamente significativa entre el acceso a servicios de saneamiento y el gasto per cápita de los hogares (19.5 \%, ceteris paribus), una asociación cualitativamente superior a la del servicio de agua potable. Se concluye, por tanto, que la reducción de externalidades sanitarias es un determinante fundamental en lo que respecta al bienestar, siendo la inversión en saneamiento estratégica para el recorte de brechas de pobreza entre el sector urbano y rural en el país.
+      \vspace{-0.15cm}
+      This study evaluates the impact of certified seed adoption on agricultural yield among rice farmers in Peru during the 2024 cropping season. Using a balanced sample of 1,991 plots from the National Agricultural Survey (ENA 2024 - INEI), we estimate a multiple linear regression model via Ordinary Least Squares (OLS) with heteroscedasticity-robust standard errors. Controlling for water availability, climatic shocks, sociodemographic variables, and departmental fixed effects, the results demonstrate that certified seed adoption significantly increases agricultural yield by 9.82\% ($\Delta\% = +10.32\%$, $p < 0.01$), \textit{ceteris paribus}. We conclude that access to certified seeds is a strategic determinant for closing productivity and competitiveness gaps in the national rice sector.
 
-      \vspace{0.6cm}
-      
-      \noindent \textbf{Keywords:} certified seeds, agricultural yield, rice, Peru, multiple regression.
+      \vspace{0.18cm}
+      \noindent \textbf{Keywords:} certified seeds, agricultural yield, rice, ENA 2024, OLS multiple regression.
     \end{minipage}
-    \vspace*{2.0cm}
+    \vspace*{0.5cm}
   \end{center}
 ]
 
@@ -76,62 +85,61 @@
 % --- CUERPO DEL PAPER ---
 
 \section{Introducción}
-En este apartado se debe desarrollar la contextualización del problema siguiendo un enfoque de embudo: comenzando por el contexto global de la productividad agrícola, pasando al ámbito regional de América Latina, y finalizando con la situación específica del Perú. Se debe plantear claramente la pregunta de investigación y presentar la justificación del estudio utilizando los microdatos de la Encuesta Nacional Agropecuaria (ENA 2024). Finalmente, se exponen los objetivos principales y la estructura del documento.
+En los últimos años, la seguridad alimentaria y el incremento de la productividad agrícola constituyen uno de los pilares fundamentales para el desarrollo socioeconómico. Para un crecimiento demográfico y una adopción de la tecnología agrícola, se empleó particularmente el uso de semillas certificadas. Esta es una herramienta que se ha consolidado como una de las más eficientes para incrementar los rendimientos de los cultivos básicos sin la necesidad de expandir de forma desmedida la frontera agrícola.
+
+En diversas regiones, el arroz desempeña un rol crucial en la dieta diaria y en el sustento de millones de unidades agropecuarias. Si bien el uso de insumos tecnológicos ha marcado brechas de rendimiento agrícola, su adopción regional sigue heterogénea debido a limitaciones de acceso, información y factores climáticos. La producción de arroz cáscara se concentra principalmente en departamentos de la costa y selva como San Martín y Piura. Pese a la relevancia, el sector enfrenta una brecha tecnológica reflejada en la coexistencia del uso de semillas certificadas con el empleo de semillas informales o recicladas de campañas anteriores. Aunque gran parte de productores ya emplean tecnología, quienes dependen de semillas tradicionales obtienen rendimientos menores, lo que limita la competitividad.
+
+Frente a este escenario, surge la necesidad de evaluar el impacto de esta innovación tecnológica en el campo peruano, es por ello que el presente estudio se plantea la siguiente pregunta de investigación: ¿Cómo influye el uso de semillas certificadas en el rendimiento del cultivo de arroz cáscara en las unidades agropecuarias del Perú durante el año 2024?
+
+Para responder esta interrogante, la investigación utilizará como fuente de datos la Encuesta Nacional Agropecuaria (ENA) 2024, diseñada por el Instituto Nacional de Estadística e Informática (\cite{inei2024a}). Esta fuente es ideal por su representatividad nacional y diseño probabilístico, ya que permite un análisis integrado y sin sesgos al registrar variables críticas (producción, uso de semillas certificadas y factores de control).
+
+Existe evidencia de que las semillas certificadas aumentan significativamente el rendimiento agrícola. Sin embargo, dado que factores exógenos pueden alterar este impacto, es indispensable controlarlos mediante análisis econométrico. El propósito general de esta investigación es cuantificar el efecto promedio del uso de semillas certificadas sobre el rendimiento agrícola del cultivo de arroz cáscara del Perú en el año 2024. Con esto, el estudio pretende generar evidencia empírica rigurosa que sirva de aporte para el diseño y optimización de políticas públicas agrícolas orientadas a la difusión tecnológica, el fortalecimiento de los sistemas de extensión agraria, la mejora de la productividad y la sostenibilidad de los productores de arroz en el país.
 
 \section{Marco teórico, marco conceptual y revisión de literatura}
 
 \subsection{Marco teórico}
-Se deben integrar de dos a cuatro teorías económicas que sustenten la investigación de manera argumentativa conjunta. Se sugiere incorporar la Teoría de la Función de Producción, la Teoría de la Difusión de Innovaciones y la perspectiva del Capital Humano aplicado a la adopción tecnológica en el sector agrícola.
+Para analizar la relación entre el uso de semillas certificadas y el rendimiento del arroz cáscara, resulta necesario partir de la teoría de la producción, debido a que esta permite explicar cómo la calidad y combinación de los insumos empleados influyen sobre el producto obtenido por unidad de superficie. En la presente investigación, la semilla certificada es considerada un insumo tecnológico, mientras que el rendimiento agrícola constituye el resultado productivo que se busca explicar. \citet{just1979} sostienen que los insumos agrícolas no solo modifican el nivel esperado de producción, sino también la eficiencia y el riesgo asociados al proceso productivo. De manera complementaria, \citet{alston2021} señalan que la innovación tecnológica constituye uno de los principales determinantes del crecimiento de la productividad agrícola, debido a que permite incrementar la producción sin aumentar proporcionalmente el uso de tierra, trabajo o capital. En consecuencia, la calidad de los insumos puede generar diferencias relevantes en el rendimiento alcanzado por las unidades agropecuarias. En esta misma línea, \citet{li2024} concluyen que la tecnología agrícola contribuye a mejorar la eficiencia en el uso de los recursos y constituye un componente central de la intensificación sostenible. Asimismo, \citet{louwaars2021} destacan que la calidad genética, fisiológica y sanitaria de la semilla condiciona el establecimiento y desempeño posterior del cultivo. Bajo este enfoque, el empleo de semillas certificadas puede desplazar la función de producción hacia niveles superiores de rendimiento, al favorecer una mayor uniformidad y un mejor aprovechamiento del agua y de los demás insumos productivos. Por tanto, la teoría de la producción sustenta la hipótesis de que las unidades agropecuarias que utilizan semillas certificadas presentan un rendimiento del arroz cáscara superior al de aquellas que emplean semillas no certificadas, manteniendo constantes las demás condiciones incluidas en el modelo econométrico.
+
+La teoría de la difusión de innovaciones resulta pertinente para la investigación porque el uso de semillas certificadas no depende únicamente de sus características técnicas, sino también de la decisión del productor de adoptarlas. En este sentido, esta teoría permite comprender por qué algunas unidades agropecuarias incorporan semillas certificadas dentro de su proceso productivo, mientras otras continúan utilizando semillas tradicionales o no certificadas. \citet{rogers2003} sostiene que la adopción de una innovación depende de la ventaja relativa percibida, su compatibilidad con las prácticas existentes, su complejidad y la posibilidad de observar o experimentar sus resultados. En el ámbito agrícola, \citet{macours2019} concluye que los productores no evalúan las innovaciones exclusivamente por su capacidad para elevar el rendimiento, sino también por sus efectos sobre el riesgo, el uso de agua, el trabajo requerido y la rentabilidad esperada. Por ello, una tecnología puede presentar ventajas agronómicas y, aun así, registrar una adopción limitada cuando sus beneficios no son claramente percibidos o existen restricciones económicas e informativas. Asimismo, \citet{okello2023} encontraron que los incentivos sociales y la circulación de información entre productores favorecen la difusión del conocimiento y la disposición a pagar por semillas certificadas. De manera complementaria, \citet{elbakali2023} concluyen que la extensión agraria, el acceso a información y las políticas públicas desempeñan un papel importante en la difusión de las innovaciones agrícolas. Estos resultados indican que la adopción de semillas certificadas responde tanto a sus beneficios productivos como al entorno institucional y social en el que toman decisiones los agricultores. En relación con el presente estudio, el uso de semillas certificadas representa una innovación tecnológica cuya adopción puede generar diferencias observables en el rendimiento del arroz cáscara. Por consiguiente, la teoría de la difusión de innovaciones complementa a la teoría de la producción, debido a que la primera explica la decisión de incorporar la tecnología, mientras que la segunda permite analizar su relación con los resultados productivos.
+
+La teoría de la meta-frontera estocástica se considera relevante para la investigación, ya que permite evaluar la eficiencia de las unidades productivas reconociendo que no todos los agricultores operan bajo la misma frontera de producción, dadas las diferencias en sus tecnologías o entornos. \citet{dewi2026} explican que, con base en los aportes de \citet{huang2014} y \citet{battese2004}, la meta-frontera se define como una función envolvente de las fronteras estocásticas de diversos grupos, lo que permite distinguir si la brecha de rendimiento de un productor responde a una gestión ineficiente de sus recursos o a limitaciones tecnológicas propias de su grupo. De igual manera, \citet{dewi2026} indican, retomando a \citet{odonnell2008}, que el Ratio de Brecha Tecnológica (\textit{Technology Gap Ratio}, TGR) mide la distancia entre la frontera de un grupo y la meta-frontera global, identificando el potencial de mejora derivado de cambios tecnológicos o del entorno productivo. Bajo este planteamiento, la eficiencia técnica de meta-frontera (MTE), obtenida como el producto de la eficiencia del grupo y el TGR, compone un indicador que compara unidades productivas pertenecientes a grupos heterogéneos, explicando de qué manera factores como el acceso a servicios de extensión o el uso de semillas certificadas inciden tanto en la eficiencia individual como en la posición tecnológica de la unidad agropecuaria frente a la mejor práctica disponible \citep{dewi2026}.
+
+En conjunto, estas tres perspectivas convergen hacia una misma conclusión: el uso de semillas certificadas se asocia con un mayor rendimiento de arroz cáscara, ya sea por la calidad del insumo empleado, por la decisión del productor de adoptarlo, o por su incidencia en la eficiencia y posición tecnológica de la unidad agropecuaria frente a la mejor práctica disponible. Este planteamiento constituye el eje central que el presente estudio pretende verificar mediante un modelo de regresión lineal múltiple, cuya base estadística posibilita calcular el efecto parcial del uso de semillas certificadas sobre el rendimiento del arroz cáscara, controlando por el resto de variables incluidas en la especificación del modelo econométrico.
 
 \subsection{Marco conceptual}
-Aquí se presenta formalmente la Encuesta Nacional Agropecuaria (ENA 2024) elaborada por el Instituto Nacional de Estadística e Informática (INEI). Asimismo, se definen conceptualmente las variables clave del estudio: el rendimiento agrícola, el uso de semillas certificadas y las variables de control seleccionadas (sintetizadas formalmente en la Sección 3 dentro de la Tabla \ref{tab:variables}).
+El análisis del efecto del uso de semillas certificadas sobre el rendimiento del arroz cáscara requiere delimitar la fuente de información y los conceptos centrales del modelo econométrico. La investigación se apoya en la Encuesta Nacional Agropecuaria (ENA) 2024, operación estadística elaborada por el Instituto Nacional de Estadística e Informática (\cite{inei2024a}), cuyo objetivo es generar información confiable sobre las unidades agropecuarias del país —superficie sembrada y cosechada, producción y destino de los cultivos, actividad pecuaria y características del productor— como insumo para las políticas públicas del sector agrario. Se trata de una encuesta por muestreo probabilístico de áreas, cuya unidad de investigación es la unidad agropecuaria, con selección mediante segmentos muestrales y cuadrantes aleatorios y un factor de expansión que permite obtener estimaciones representativas; su cobertura es nacional, pues abarca los veinticuatro departamentos y las tres regiones naturales —costa, sierra y selva— \citep{inei2024b}. Para esta investigación se emplean dos módulos: el Capítulo 200 (base CAP200AB), sobre superficie cosechada y sembrada, producción y destino de los cultivos, del cual se obtienen la superficie sembrada y cosechada (preguntas 210 y 217), la producción total (pregunta 219), el tipo de semilla —certificada o no certificada— (pregunta 214) y la procedencia del agua de riego (pregunta 212); y el Capítulo 1100 (base CAP1100), con las características sociodemográficas del productor \citep{inei2024b}. La ENA constituye una fuente adecuada porque registra simultáneamente, para un mismo cultivo y unidad agropecuaria, la producción, la superficie, el tipo de semilla y las condiciones hídricas, lo que permite construir el indicador de rendimiento y estimar su relación con la semilla certificada.
+
+El primer concepto central es el rendimiento agrícola, definido por la \citet{fao2023} como la producción cosechada por unidad de área y empleado como indicador básico de la productividad de la tierra. En la literatura económica sintetiza el efecto conjunto de los insumos, la tecnología y las condiciones agroecológicas, por lo que ha sido el indicador central para evaluar la innovación tecnológica agrícola, como las variedades mejoradas de la Revolución Verde en cereales como el arroz \citep{evenson2003}. Se mide como el cociente entre la producción física y la superficie cosechada, en kilogramos por hectárea (kg/ha), convención que adopta la propia ENA en su Sección 200B al calcular el rendimiento a partir de las preguntas 219 y 217 \citep{inei2024a}. En este estudio, el rendimiento del arroz cáscara en kg/ha es la variable dependiente del modelo.
+
+Estrechamente vinculado al rendimiento se encuentra el uso de semilla certificada, aquella producida bajo un proceso formal que verifica su identidad y pureza varietal, su calidad fisiológica y sanitaria, y su trazabilidad respecto de las categorías genética, básica y registrada \citep{fao2019}. La semilla certificada garantiza germinación, vigor y uniformidad genética, y mejora la eficiencia de los demás insumos, por lo que su adopción es una de las innovaciones de mayor impacto sobre los rendimientos en países en desarrollo \citep{feder1985}; en el arroz, las variedades modernas explican gran parte del crecimiento del rendimiento en Asia y América Latina \citep{evenson2003}. El estudio la operacionaliza como variable independiente dicotómica a partir de la pregunta 214: uno si el productor utilizó semilla certificada y cero si utilizó semilla no certificada \citep{inei2024b}.
+
+Dado que el arroz es muy sensible a la disponibilidad hídrica, el modelo incorpora como control la fuente de agua, es decir, la procedencia principal del agua de riego: solo precipitación —``lluvia (secano)'', código 1 de la pregunta 212— u otras fuentes como río, manantial, pozo o reservorio \citep{inei2024a}. Esta distinción remite a la diferencia entre la agricultura de secano, dependiente de las lluvias, y la que dispone de otras fuentes de agua, en la que el productor regula el suministro hídrico; la \citet{fao2011} ha documentado que los rendimientos con riego superan consistentemente a los de secano al reducir el estrés hídrico. Omitir esta condición sesgaría la estimación al confundir el efecto de la semilla con diferencias en la dotación de agua. Por ello se incluye una variable dummy igual a cero cuando el cultivo depende solo de la lluvia y uno cuando accede a otra fuente, lo que permite aislar la contribución de la semilla certificada sobre el rendimiento del arroz cáscara en las unidades agropecuarias del Perú.
+
+Los factores climatológicos como la temperatura y la precipitación determinan la evaporación, el ciclo fenológico del cultivo y la proliferación de plagas \citep{fao2016}. El cultivo de arroz cáscara es altamente sensible a las condiciones climáticas, omitir esta variable provocaría un sesgo en los coeficientes del modelo econométrico. Según \citet{schlenker2009}, las variaciones extremas de temperatura constituyen un choque exógeno, y ello disminuye significativamente el rendimiento de los cultivos. El modelo econométrico incorpora esta variable para representar la variabilidad exógena de las condiciones agroclimáticas que afectan la productividad de los cultivos.
+
+La inclusión de variables categóricas a nivel departamento es necesaria porque permite controlar la heterogeneidad espacial no observada y efectos fijos geográficos. Las regiones del Perú presentan marcadas diferencias en relación a la calidad de los suelos y la altitud \citep{escobal2002}. De acuerdo con la teoría de desarrollo agrícola, estas características influyen en los costos de transacción que enfrentan los productores y condicionan su acceso a los servicios de asistencia técnica como los canales de comercialización \citep{key2000}. Para el modelo econométrico la variable departamento es incorporada mediante variables dicotómicas (dummy) a fin de controlar las particularidades geográficas e institucionales.
+
+Incorporar el sexo del productor como variable de control tiene el fin de considerar las desigualdades que pueden tener una influencia en el desempeño de la actividad agrícola. Estudios sostienen que las parcelas gestionadas por hombres muestran mayores rendimientos promedio frente a las gestionadas por mujeres, en principio por las limitaciones estructurales que enfrentan para acceder a recursos productivos esenciales como títulos de propiedad de la tierra, financiamiento formal, mercado de insumos y asistencia técnica \citep{aguilar2015}. En el presente estudio, esta variable de control se presenta mediante una variable dicotómica donde el valor de 1 representa a los productores hombres y el valor de 0 a las productoras mujeres.
 
 \subsection{Estado del arte}
-Revisión analítica de estudios previos tanto a nivel nacional como internacional. Para cada antecedente se debe seguir un orden estricto: Autor y año, fuente de datos, metodología econométrica aplicada y el resultado cuantitativo principal con su respectiva cifra o coeficiente.
+Diversas investigaciones han abordado la relación entre el uso de semillas certificadas y el rendimiento agrícola, empleando distintas fuentes de datos y metodologías según el contexto productivo de cada país. Estos estudios coinciden en que la calidad de la semilla es uno de los principales determinantes del desempeño productivo de los cultivos, aunque el efecto varía según las condiciones agroecológicas y las características de los productores. En este contexto, \citet{takeshima2025} estudiaron el efecto de la certificación de semillas sobre los resultados productivos en Nigeria, usando un panel nacional representativo de explotaciones agrícolas combinado con datos de ubicación de empresas semilleras. Con un modelo de efectos fijos de panel complementado con variables instrumentales, encontraron que el uso de semillas certificadas incrementa significativamente el rendimiento agrícola de maíz, arroz y caupí, aunque el efecto varía según las condiciones agroecológicas y presenta rendimientos marginales decrecientes. Este es el antecedente más importante para nuestro estudio, ya que analiza directamente la certificación de semillas (y no solo la adopción de variedades mejoradas) sobre el rendimiento, usando una base de datos de cobertura nacional, algo muy similar a lo que realizamos con la ENA 2024.
 
-\clearpage % Salto de página para que Metodología inicie en la parte superior de una hoja nueva
-\section{Metodología, análisis de datos y resultados}
+En Ghana, \citet{abdul2021} examinaron la adopción de variedades mejoradas de arroz y su efecto sobre la eficiencia productiva en pequeños agricultores, a partir de una encuesta a 412 productores (286 adoptantes y 126 no adoptantes) recolectada en 2016. Utilizando modelos Probit, \textit{Propensity Score Matching}, \textit{Stochastic Production Frontier} y análisis de meta-frontera para corregir el sesgo de selección y las brechas tecnológicas entre grupos, encontraron que la adopción de variedades mejoradas incrementó la productividad del arroz en aproximadamente 75.6 \% respecto a los no adoptantes, además de mejorar su eficiencia técnica.
+
+En el caso peruano, \citet{matallana2022} evaluó los beneficios económicos y ambientales del uso de semilla certificada de arroz (\textit{Oryza sativa}) en la costa norte y selva norte del país, usando información secundaria de MIDAGRI y del INIA. Con un modelo de presupuesto parcial y simulaciones de Montecarlo, determinó que la adopción de semilla certificada incrementaría la rentabilidad de los productores en 81.57 \% en el corto plazo, con un VAN de S/ 8,455 millones y una TIR de 151.19 \% en el largo plazo, además de reducir en 26.06 \% el coeficiente de impacto ambiental por el menor uso de plaguicidas.
+
+De estos tres antecedentes, el de \citet{matallana2022} es el más cercano a nuestra investigación, ya que comparte tanto el país (Perú) como la variable de interés (semilla certificada de arroz cáscara). Sin embargo, ese estudio se enfoca en rentabilidad y sostenibilidad ambiental a partir de datos secundarios, sin estimar económicamente el efecto de la semilla certificada sobre el rendimiento físico del cultivo. Nuestra investigación aporta algo nuevo al usar microdatos representativos a nivel nacional de la ENA 2024 y un modelo de regresión log-lineal por MCO que permite cuantificar en términos porcentuales el efecto de la semilla certificada sobre el rendimiento del arroz cáscara en las unidades agropecuarias del Perú.
+
+\section{Metodología}
 
 \subsection{Método y tipo de investigación}
 La investigación adoptó una naturaleza cuantitativa, de tipo explicativo-correlacional, orientada a estimar el efecto del uso de semillas certificadas sobre el rendimiento agrícola del cultivo de arroz cáscara en las unidades agropecuarias del Perú. El diseño fue no experimental, de corte transversal y \textit{ex post facto}, debido a que las variables se observaron tal como se presentan en la realidad, sin manipulación, en un único corte temporal correspondiente al año 2024.
 
 El estudio dispuso como técnica e instrumento de recolección de datos la revisión documental y la ficha de recopilación, respectivamente. La fuente de información fue la Encuesta Nacional Agropecuaria (ENA) 2024, ejecutada por el \citet{inei}. Esta encuesta cuenta con representatividad nacional y un diseño muestral probabilístico, además de constituir la fuente oficial para el estudio de la actividad agropecuaria en el país. Para efectos de la presente investigación, se emplearon dos capítulos de la ENA 2024: el Capítulo 200 (Partes A y B) [Módulo 1895], que registra la producción, superficie, prácticas de siembra y factores climáticos por parcela, y el Capítulo 1100 [Módulo 1911], que recoge las características sociodemográficas del productor/a agropecuario/a y su hogar. Ambos capítulos se integraron mediante un procedimiento de \textit{merge} (unión de base de datos) por medio de las llaves geográficas y de identificación de la unidad agropecuaria.
 
-La población estuvo conformada por las unidades agropecuarias productoras de arroz cáscara en el Perú. Para la determinación de la muestra, se aplicaron los siguientes criterios de exclusión sobre la población: i) se conservaron únicamente las observaciones correspondientes al cultivo de arroz cáscara; ii) se restringió la muestra a unidades agropecuarias con una sola cosecha anual, con el propósito de reducir la heterogeneidad asociada a distintos calendarios de siembra; iii) se omitieron las observaciones a las que no les fue posible emparejarse entre ambos capítulos de la encuesta; y iv) se excluyeron los registros con valores no positivos o perdidos en el rendimiento agrícola y en la variable de semillas certificadas (regresor principal), a razón de impedir estos la construcción del modelo. Bajo la aplicación de los anteriores criterios, la muestra final del estudio quedó compuesta por 1,992 unidades agropecuarias.
+La población estuvo conformada por las unidades agropecuarias productoras de arroz cáscara en el Perú. Para la determinación de la muestra, se aplicaron los siguientes criterios de exclusión sobre la población: i) se conservaron únicamente las observaciones correspondientes al cultivo de arroz cáscara; ii) se restringió la muestra a unidades agropecuarias con una sola cosecha anual, con el propósito de reducir la heterogeneidad asociada a distintos calendarios de siembra; iii) se omitieron las observaciones a las que no les fue posible emparejarse entre ambos capítulos de la encuesta; iv) se excluyeron los registros con valores no positivos o perdidos en el rendimiento agrícola y en la variable de semillas certificadas (regresor principal), a razón de impedir estos la construcción del modelo; y v) se eliminó la observación correspondiente al departamento de Ayacucho por constituir un grupo singleton (una sola observación), dado que, de acuerdo con \citet{correia2015}, mantener grupos singleton en regresiones con efectos fijos anidados dentro de clusters puede sobrestimar la significancia estadística y conducir a inferencias incorrectas. Bajo la aplicación de los anteriores criterios, la muestra final del estudio quedó compuesta por 1,991 unidades agropecuarias.
 
-\subsection{Estadísticas descriptivas de la muestra}
-Tal como se reporta en la Tabla \ref{tab:descriptivas}, el logaritmo natural del rendimiento agrícola ($\ln(\text{Rendimiento})$) presenta una media de $8.9589$ ($\text{DE} = 0.4752$), con valores mínimo y máximo de $7.0048$ y $9.6411$, respectivamente. Respecto a la variable independiente principal, el 78.36 \% de las parcelas de la muestra ($\text{Media} = 0.7836$) utilizó semillas certificadas durante la campaña agrícola 2024.
-
-En cuanto a las variables de control, el 94.68 \% de las unidades agropecuarias registró una fuente de agua superficial o subterránea distinta a la lluvia exclusivamente ($\text{Media} = 0.9468$). Por el lado de los choques adversos durante la campaña, la mayor incidencia corresponde a plagas y enfermedades (22.19 \% de las parcelas), seguido por sequías (3.71 \%), otros factores adversos (2.01 \%) y lluvias a destiempo (1.51 \%). 
-
-Finalmente, las características sociodemográficas revelan que la edad del productor agropecuario tiene un promedio de $55.597$ años ($\text{DE} = 13.236$, con un rango muestral de $17.000$ a $98.000$ años), mientras que la participación de mujeres productoras como conductoras principales es del 13.20 \% ($\text{Media} = 0.1320$) y la proporción de agricultores con educación superior se sitúa en 18.22 \% ($\text{Media} = 0.1822$).
-
-% --- TABLA 2: ESTADÍSTICAS DESCRIPTIVAS ALINEADA A LA IZQUIERDA EN UNA COLUMNA ---
-\begin{table}[bp]
-\raggedright % Alineación al margen izquierdo exacto
-\scriptsize % Letra compacta
-\caption{Estadísticas descriptivas de la muestra ($N=1,992$)}
-\label{tab:descriptivas}
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcccc@{}}
-\toprule
-\textbf{Variable} & \textbf{Media} & \textbf{Desv. Est.} & \textbf{Mín.} & \textbf{Máx.} \\
-\midrule
-$\ln(\text{Rendimiento})$ & 8.9589 & 0.4752 & 7.0048 & 9.6411 \\
-Semillas certificadas     & 0.7836 & 0.4119 & 0.0000 & 1.0000 \\
-Fuente de agua            & 0.9468 & 0.2245 & 0.0000 & 1.0000 \\
-Sequía                    & 0.0371 & 0.1892 & 0.0000 & 1.0000 \\
-Lluvias a destiempo       & 0.0151 & 0.1218 & 0.0000 & 1.0000 \\
-Plagas y enfermedades     & 0.2219 & 0.4156 & 0.0000 & 1.0000 \\
-Otros factores            & 0.0201 & 0.1403 & 0.0000 & 1.0000 \\
-Mujer productora          & 0.1320 & 0.3386 & 0.0000 & 1.0000 \\
-Educación superior        & 0.1822 & 0.3861 & 0.0000 & 1.0000 \\
-Edad del productor        & 55.597 & 13.236 & 17.000 & 98.000 \\
-\bottomrule
-\end{tabular*}
-\vspace{2pt}\par\noindent{\scriptsize \textit{Nota.} Elaboración propia con base en microdatos de la ENA 2024 (INEI). Panel balanceado de 1,992 parcelas de arroz cáscara.\par}
-\end{table}
-
-\subsection{Especificación del modelo econométrico}
+\subsection{Especificación del modelo y definición de variables}
 Dada la naturaleza continua de la variable dependiente, el rendimiento agrícola, se empleó un modelo de regresión lineal múltiple estimado por el método de Mínimos Cuadrados Ordinarios (MCO), aquella técnica econométrica que permite estimar los parámetros de regresión lineal minimizando la suma de los cuadrados de los residuos, asegurando bajo ciertos supuestos estimadores insesgados y eficientes \citep{wooldridge}. En su continuación, el rendimiento se transformó a su logaritmo natural (modelo log-lineal) con el objetivo de reducir la asimetría de su distribución y posibilitar que los coeficientes se interpreten como cambios porcentuales aproximados ante variaciones en las variables explicativas \citep{lozares1998}.
 
 Por tanto, el modelo econométrico general se expresa de la siguiente manera:
@@ -140,27 +148,11 @@ Por tanto, el modelo econométrico general se expresa de la siguiente manera:
 \ln(\text{Rendimiento})_i = \beta_0 + \beta_1 \text{Semillas\_Certificadas}_i + X_i \cdot \Gamma + \varepsilon_i
 \end{equation}
 
-Donde $X_i$ representa un vector de variables de control incorporadas con el objetivo de aislar el efecto del uso de semillas certificadas sobre el rendimiento agrícola y reducir el posible sesgo por omisión de variables relevantes. Dicho vector comprende variables asociadas a las condiciones productivas del cultivo, como el acceso a una fuente de agua distinta de la lluvia; factores climáticos y fitosanitarios que afectaron la producción durante la campaña agrícola (sequía, lluvias a destiempo, plagas y enfermedades, y otros factores); características sociodemográficas del productor (sexo, edad y nivel educativo); y la ubicación geográfica de la unidad agropecuaria, representada por el departamento donde se desarrolla la actividad agrícola.
-
-A partir de la especificación presentada anteriormente, el modelo econométrico estimado incorpora explícitamente la variable explicativa principal y las variables de control seleccionadas, obteniéndose la siguiente especificación funcional desplegada:
-\begin{equation}
-\scriptsize
-\begin{split}
-    \ln(\text{Rendimiento})_i &= \beta_0 + \beta_1 \text{Semillas\_Certificadas}_i + \beta_2 \text{Fuente\_Agua}_i \\
-    &\quad + \beta_3 \text{Sequía}_i + \beta_4 \text{Lluvias\_Destiempo}_i \\
-    &\quad + \beta_5 \text{Plagas\_Enfermedades}_i + \beta_6 \text{Otros\_Factores}_i \\
-    &\quad + \beta_7 \text{Mujer\_Productora}_i + \beta_8 \text{Educación\_Superior}_i \\
-    &\quad + \beta_9 \text{Edad\_Productor}_i + \text{ib14.Departamento}_i + \varepsilon_i
-\end{split}
-\end{equation}
-
-La Tabla \ref{tab:variables} resume formalmente la notación, definición conceptual y forma de medición de todas las variables empleadas en la estimación del modelo econométrico.
-
-% --- TABLA 1: DEFINICIÓN DE VARIABLES (Posicionada en Metodología) ---
+% --- TABLA 1: DEFINICIÓN DE VARIABLES (APARECERÁ AL INICIO DE PÁGINA 7) ---
 \begin{table*}[t]
 \raggedright
 \footnotesize 
-\caption{Definición y medición de las variables del modelo econométrico}
+\caption{Definición y medición de las variables del modelo}
 \label{tab:variables}
 \begin{tabularx}{\textwidth}{@{} l l X c @{}}
 \toprule
@@ -192,14 +184,62 @@ Departamento & \texttt{departamento} & Departamento donde se ubica la unidad agr
 \vspace{2pt}\par\noindent{\footnotesize \textit{Nota.} La variable dependiente es el logaritmo natural del rendimiento agrícola (kg/ha); la variable independiente principal ($X_1$) es el uso de semillas certificadas. Las demás son variables de control: disponibilidad hídrica, choques climáticos, características del productor/a (sexo, educación, edad) y efectos fijos departamentales.\par}
 \end{table*}
 
-\subsection{Resultados y discusión econométrica}
-La Tabla \ref{tab:resultados} reporta las estimaciones de los cinco modelos OLS robustos para el logaritmo natural del rendimiento agrícola ($\ln(\text{Rendimiento})$). El Modelo (1) evalúa la relación bivariada simple, arrojando un coeficiente estimado de $\hat{\beta}_1 = 0.2509$ ($p < 0.01$). Sin embargo, este resultado exhibe un severo sesgo por omisión de variables correlacionadas (\textit{omitted variable bias}), pues atribuye a la semilla todo el premio productivo de la tecnificación agropecuaria. Al introducir el control de infraestructura hídrica en el Modelo (2), el coeficiente de semilla certificada disminuye abruptamente de $0.2509$ a $0.0191$ y pierde significancia estadística ($p > 0.10$). Este comportamiento econométrico revela una alta multicolinealidad estructural: los agricultores que adoptan semillas certificadas en el país son prácticamente los mismos que cultivan bajo riego ($\text{fuente\_agua} = 1$). Al no controlar por el agua en la regresión simple, la semilla absorbía el impacto positivo del riego ($1.1672$, equivalente a un rendimiento $\approx$ 221 \% superior frente a parcelas de secano). En los Modelos (3) y (4), al incorporar factores climáticos y sociodemográficos sin aislar el territorio, el coeficiente paramétrico se mantiene invariante en torno a $0.020$ sin significancia.
+Donde $X_i$ representa un vector de variables de control incorporadas con el objetivo de aislar el efecto del uso de semillas certificadas sobre el rendimiento agrícola y reducir el posible sesgo por omisión de variables relevantes. Dicho vector comprende variables asociadas a las condiciones productivas del cultivo, como el acceso a una fuente de agua distinta de la lluvia; factores climáticos y fitosanitarios que afectaron la producción durante la campaña agrícola (sequía, lluvias a destiempo, plagas y enfermedades, y otros factores); características sociodemográficas del productor (sexo, edad y nivel educativo); y la ubicación geográfica de la unidad agropecuaria, representada por el departamento donde se desarrolla la actividad agrícola.
+
+A partir de la especificación presentada anteriormente, el modelo econométrico estimado incorpora explícitamente la variable explicativa principal y las variables de control seleccionadas, obteniéndose la siguiente especificación funcional desplegada:
+\begin{equation}
+\scriptsize
+\begin{split}
+    \ln(\text{Rendimiento})_i &= \beta_0 + \beta_1 \text{Semillas\_Certificadas}_i + \beta_2 \text{Fuente\_Agua}_i \\
+    &\quad + \beta_3 \text{Sequía}_i + \beta_4 \text{Lluvias\_Destiempo}_i \\
+    &\quad + \beta_5 \text{Plagas\_Enfermedades}_i + \beta_6 \text{Otros\_Factores}_i \\
+    &\quad + \beta_7 \text{Mujer\_Productora}_i + \beta_8 \text{Educación\_Superior}_i \\
+    &\quad + \beta_9 \text{Edad\_Productor}_i + \text{ib14.Departamento}_i + \varepsilon_i
+\end{split}
+\end{equation}
+
+La \hyperref[tab:variables]{Tabla~\ref*{tab:variables}} resume formalmente la notación, definición conceptual y forma de medición de todas las variables empleadas en la estimación del modelo econométrico.
+
+\subsection{Estadísticas descriptivas}
+Tal como se reporta en la \hyperref[tab:descriptivas]{Tabla~\ref*{tab:descriptivas}}, el logaritmo natural del rendimiento agrícola ($\ln(\text{Rendimiento})$) presenta una media de $8.9589$ ($\text{DE} = 0.4752$), con valores mínimo y máximo de $7.0048$ y $9.6411$, respectivamente. Respecto a la variable independiente principal, el 78.36 \% de las parcelas de la muestra ($\text{Media} = 0.7836$) utilizó semillas certificadas durante la campaña agrícola 2024.
+
+En cuanto a las variables de control, el 94.68 \% de las unidades agropecuarias registró una fuente de agua superficial o subterránea distinta a la lluvia exclusivamente ($\text{Media} = 0.9468$). Por el lado de los choques adversos durante la campaña, la mayor incidencia corresponde a plagas y enfermedades (22.19 \% de las parcelas), seguido por sequías (3.71 \%), otros factores adversos (2.01 \%) y lluvias a destiempo (1.51 \%). 
+
+Finalmente, las características sociodemográficas revelan que la edad del productor agropecuario tiene un promedio de $55.597$ años ($\text{DE} = 13.236$, con un rango muestral de $17.000$ a $98.000$ años), mientras que la participación de mujeres productoras como conductoras principales es del 13.20 \% ($\text{Media} = 0.1320$) y la proporción de agricultores con educación superior se sitúa en 18.22 \% ($\text{Media} = 0.1822$).
+
+% --- TABLA 2: ESTADÍSTICAS DESCRIPTIVAS ---
+\begin{table}[ht!]
+\raggedright
+\scriptsize
+\caption{Estadísticas descriptivas ($N=1,991$)}
+\label{tab:descriptivas}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+\textbf{Variable} & \textbf{Media} & \textbf{Desv. Est.} & \textbf{Mín.} & \textbf{Máx.} \\
+\midrule
+$\ln(\text{Rendimiento})$ & 8.9589 & 0.4752 & 7.0048 & 9.6411 \\
+Semillas certificadas     & 0.7836 & 0.4119 & 0.0000 & 1.0000 \\
+Fuente de agua            & 0.9468 & 0.2245 & 0.0000 & 1.0000 \\
+Sequía                    & 0.0371 & 0.1892 & 0.0000 & 1.0000 \\
+Lluvias a destiempo       & 0.0151 & 0.1218 & 0.0000 & 1.0000 \\
+Plagas y enfermedades     & 0.2219 & 0.4156 & 0.0000 & 1.0000 \\
+Otros factores            & 0.0201 & 0.1403 & 0.0000 & 1.0000 \\
+Mujer productora          & 0.1320 & 0.3386 & 0.0000 & 1.0000 \\
+Educación superior        & 0.1822 & 0.3861 & 0.0000 & 1.0000 \\
+Edad del productor        & 55.597 & 13.236 & 17.000 & 98.000 \\
+\bottomrule
+\end{tabular*}
+\vspace{2pt}\par\noindent{\scriptsize \textit{Nota.} Elaboración propia con base en microdatos de la ENA 2024 (INEI). Panel balanceado de 1,991 parcelas de arroz cáscara.\par}
+\end{table}
+
+\subsection{Resultados y discusión}
+La \hyperref[tab:resultados]{Tabla~\ref*{tab:resultados}} reporta las estimaciones de los cinco modelos OLS anidados para el logaritmo natural del rendimiento agrícola ($\ln(\text{Rendimiento})$). Siguiendo el criterio metodológico de \citet{wooldridge}, la inclusión progresiva de bloques de control permite examinar la estabilidad paramétrica y el sesgo por omisión de variables sobre el coeficiente de interés ($\hat{\beta}_1$).
 
 % --- TABLA 3: RESULTADOS DE LAS ESTIMACIONES OLS ---
 \begin{table*}[t]
 \raggedright 
 \scriptsize 
-\caption{Resultados progresivos de las estimaciones OLS robustas para $\ln(\text{Rendimiento agrícola})$ ($N=1,992$)}
+\caption{Resultados progresivos de las estimaciones OLS robustas para $\ln(\text{Rendimiento agrícola})$ }
 \label{tab:resultados}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
 \toprule
@@ -226,7 +266,6 @@ Edad del productor          &           &          &          & 0.0014** & {0.00
 Amazonas & & & & & 0.0738 (0.0485) \\
 Áncash & & & & & 0.4436*** (0.0543) \\
 Arequipa & & & & & 0.4987*** (0.0405) \\
-Ayacucho & & & & & -0.7023** (0.3278) \\
 Cajamarca & & & & & 0.1531*** (0.0523) \\
 Huánuco & & & & & -0.2049*** (0.0776) \\
 Junín & & & & & -0.8428*** (0.1928) \\
@@ -242,13 +281,29 @@ Ucayali & & & & & -0.3421*** (0.0570) \\
 Constante ($\hat{\beta}_0$) & 8.7623*** & 7.8389*** & 7.8895*** & 7.8169*** & {8.2564***} \\
                             & (0.0223)  & (0.0385) & (0.0386) & (0.0511) & {(0.0692)} \\
 \midrule
-Observaciones ($N$)         & 1,992     & 1,992    & 1,992    & 1,992    & {1,992} \\
+Observaciones ($N$)         & 1,991     & 1,991    & 1,991    & 1,991    & {1,991} \\
+$R^2$                       & 0.0470    & 0.3341   & 0.3512   & 0.3564   & {0.5502} \\
 \bottomrule
 \end{tabular*}
-\vspace{2pt}\par\noindent{\scriptsize \textit{Nota.} Errores estándar robustos entre paréntesis (\texttt{vce(robust)}). Nivel de significancia: *** $p<0.01$, ** $p<0.05$, * $p<0.1$. El Modelo (5) incluye efectos fijos para los 16 departamentos arroceros de la muestra, tomando como referencia territorial al departamento de San Martín (código \texttt{ib14.departamento}).\par}
+\vspace{2pt}\par\noindent{\scriptsize \textit{Nota.} Errores estándar robustos a heterocedasticidad entre paréntesis (\texttt{vce(robust)}). Nivel de significancia: *** $p<0.01$, ** $p<0.05$, * $p<0.1$. El Modelo (5) incluye efectos fijos para los departamentos arroceros, tomando a San Martín como categoría base (\texttt{ib14.departamento}). La muestra definitiva de $N=1,991$ parcelas excluye el grupo \textit{singleton} de Ayacucho conforme a los criterios metodológicos fundamentados en la Sección 3.1. Por su parte, el departamento de Junín ($N=3$) se conserva como control de robustez geográfica.\par}
 \end{table*}
 
-El Modelo (5) constituye la especificación econométrica definitiva de la investigación, al incorporar los efectos fijos departamentales con base en San Martín. Al controlar estrictamente por la heterogeneidad geográfica, agroecológica e institucional entre regiones, el verdadero efecto neto condicional de las semillas certificadas ($\hat{\beta}_1$) emerge de manera estadísticamente altamente significativa ($p < 0.01$) con un coeficiente de $0.0982$. Dada la estructura log-lineal del modelo, la semielasticidad exacta del rendimiento frente al uso de semilla certificada se calcula mediante la transformación porcentual de Halvorsen y Palmquist (1980):
+\subsubsection{Especificación funcional definitiva del modelo econométrico}
+Una vez aplicada la depuración muestral fundamentada en la Sección 3.1 (que excluye la celda unitaria de Ayacucho para evitar distorsiones en los errores estándar robustos), la muestra final de estimación consta de $N = 1,991$ unidades agropecuarias, conservando a Junín ($N=3$) como control de robustez geográfica. El modelo definitivo con efectos fijos departamentales (Modelo 5), que alcanza un coeficiente de determinación de $R^2 = 0.5502$, se especifica formalmente como:
+\begin{equation}
+\scriptsize
+\begin{split}
+\ln(\text{Rendimiento})_i &= \beta_0 + \beta_1 \text{Semillas\_Certificadas}_i + \beta_2 \text{Fuente\_Agua}_i \\
+&\quad + \sum_{k=3}^{6} \beta_k \text{Clima}_{k,i} + \sum_{m=7}^{9} \beta_m \text{Productor}_{m,i} \\
+&\quad + \sum_{j=1}^{15} \gamma_j \text{Departamento}_{j,i} + \varepsilon_i
+\end{split}
+\end{equation}
+donde el vector $\boldsymbol{\beta}$ agrupa los parámetros de la tecnología, riego, clima y perfil del conductor, mientras que el vector $\boldsymbol{\gamma}$ recoge la heterogeneidad geográfica insesgada respecto a San Martín.
+
+\subsubsection{Variable de interés: impacto de las semillas certificadas ($X_1$)}
+El coeficiente estimado para semillas certificadas en el Modelo (5) es de $\hat{\beta}_1 = 0.0982$, con un error estándar robusto de $0.0206$ y un estadístico $t = 4.77$ ($p < 0.001$, altamente significativo al 99 \% de confianza). Esto permite rechazar categóricamente la hipótesis nula de ausencia de efecto. En cuanto a la dirección, el signo positivo indica que, controlando por el riego, choques ambientales, capital humano y geografía, las parcelas que emplearon semilla certificada lograron un rendimiento agronómico superior frente a aquellas con semilla común o grano comercial.
+
+En cuanto a la magnitud, dado que la variable dependiente está en logaritmo natural y el regresor es dicotómico, la lectura rigurosa no es "$9.82$ \%" (aproximación lineal solo válida para variaciones infinitesimales), sino la transformación semielástica exacta de \citet{halvorsen1980}:
 \begin{equation}
 \scriptsize
 \begin{split}
@@ -256,24 +311,139 @@ El Modelo (5) constituye la especificación econométrica definitiva de la inves
     &= \left[ \exp(0.0982) - 1 \right] \times 100 = \mathbf{+10.32 \%}
 \end{split}
 \end{equation}
+Por tanto, manteniendo constantes el acceso a riego, las adversidades fitosanitarias y climáticas, el perfil del conductor y la ubicación departamental, \textbf{las unidades agropecuarias que utilizaron semilla certificada obtuvieron, en promedio, un rendimiento 10.32 \% mayor que aquellas que utilizaron semilla no certificada}, diferencia estadísticamente significativa al 1 \%.
 
-De esta manera, manteniendo constantes el acceso al agua de riego, los choques fitosanitarios y climáticos, la escolaridad del conductor, su sexo y la región donde se ubica la finca, el uso de semillas certificadas incrementa el rendimiento del arroz cáscara en un 10.32 \% respecto al uso de semillas tradicionales o no verificadas.
+\subsubsection{Estabilidad paramétrica y sesgo por omisión a través de los modelos anidados}
+La progresión de los cinco modelos arrojados en la \hyperref[tab:resultados]{Tabla~\ref*{tab:resultados}} revela hallazgos metodológicos cruciales para conectar la teoría agronómica con la evidencia econométrica respecto a la estabilidad paramétrica del regresor principal y la corrección del sesgo por omisión de variables.
 
-Respecto a las variables de control y los efectos fijos del Modelo (5), su comportamiento econométrico corrobora la coherencia teórica del estudio. El acceso a riego ($0.4858$, $p < 0.01$) otorga a los productores un premio productivo condicional del 62.55 \% frente a parcelas de secano, ratificando que el agua es el recurso limitante central en la productividad arrocera. Todos los choques fitosanitarios y climáticos muestran signos negativos y altamente significativos: las plagas y enfermedades reducen la cosecha en $-12.39$ \% ($p < 0.01$), las lluvias a destiempo en $-17.86$ \% ($p < 0.01$), la sequía en $-7.86$ \% ($p < 0.05$) y los otros factores adversos en $-30.43$ \% ($p < 0.01$). En el plano del capital humano y las brechas de género, la educación superior impacta positivamente ($\hat{\beta} = 0.0670$, $p < 0.01$), indicando que los agricultores con instrucción superior logran un 6.93 \% más de rendimiento. En contraste, la variable mujer productora arroja un coeficiente de $-0.0733$ ($p < 0.01$), reflejando una brecha de productividad estructural de $-7.07$ \% en contra de las conductoras agropecuarias, producto del acceso dispar al crédito formal, títulos de propiedad y asistencia técnica en el ámbito rural. Asimismo, los coeficientes departamentales (Panel B) evidencian las ventajas comparativas de los valles irrigados de la costa sobre la sierra y selva peruanas; tomando como base a San Martín ($\hat{\beta} = 0.000$), regiones costeras tecnificadas como Arequipa ($+64.66$ \%), Áncash ($+55.83$ \%) y La Libertad ($+44.15$ \%) muestran productividades significativamente superiores ($p < 0.01$), en contraposición a zonas dependientes de lluvias como Junín ($-56.96$ \%), Ayacucho ($-50.45$ \%) y Madre de Dios ($-46.23$ \%).
+En primer lugar, la especificación basal sin controles (Modelo 1) arroja un coeficiente crudo de $0.2509$ ($p < 0.01$), con un poder explicativo de $R^2 = 0.0470$. Esta asociación paramétrica aparente sugiere una ganancia del $+28.52$ \% por el uso de semillas certificadas; sin embargo, representa un estimador severamente sesgado al alza al absorber el efecto de factores productivos omitidos fuertemente correlacionados con la adopción tecnológica, tal como evidencia la correlación positiva ($r = 0.36$) entre la compra de semilla y el acceso a riego.
 
-Finalmente, la validez estadística e insesgamiento de los parámetros del Modelo (5) fue corroborada mediante pruebas post-estimación. El Factor de Inflación de Varianza (VIF) promedio se ubicó en $2.48$, muy por debajo del umbral crítico de $VIF \ge 10$, descartando problemas de multicolinealidad severa. Asimismo, ante el rechazo de la hipótesis nula de homocedasticidad en la prueba de Breusch-Pagan ($p < 0.01$), el uso de errores estándar robustos (\texttt{vce(robust)}) garantizó pruebas de hipótesis $t$ e intervalos de confianza completamente libres de sesgo distribucional residual. Respecto a la potencial endogeneidad de la adopción tecnológica por autoselección (\textit{selection bias}), se evaluó la estimación por Variables Instrumentales (IV/2SLS) empleando el módulo CAP700 (\textit{"Capacitación técnica en semillas"}). Sin embargo, dicho módulo reveló una restricción muestral estructural: el 90.66 \% de los productores arroceros carecía de este registro, reduciendo la muestra útil a apenas $N = 186$ observaciones y comportándose como un instrumento débil e inestable ($EE > 63,000$). No obstante, al aplicar la prueba de Durbin-Wu-Hausman sobre la submuestra comparable, el estadístico arrojó $p = 0.060 > 0.05$, por lo que no se rechaza la hipótesis nula de exogeneidad de las semillas certificadas. Por tanto, la teoría agronómica y la evidencia diagnóstica respaldan formalmente que el estimador MCO robusto del Modelo (5) es consistente, eficiente y metodológicamente superior.
+En segundo lugar, al incorporar el factor hídrico en el Modelo 2, el coeficiente de la semilla certificada experimenta una compresión drástica hacia $0.0191$ y pierde toda significancia estadística ($p = 0.407$). Este comportamiento ratifica numéricamente la presencia de un sesgo por variable omitida en la regresión simple, dado que la semilla se adjudicaba espuriamene el premio productivo del riego, cuyo impacto en este segundo modelo es masivo ($\hat{\beta}_2 = 1.1672$, $p < 0.01$).
+
+En tercer lugar, al adicionar el bloque de anomalías climáticas y fitosanitarias en el Modelo 3, así como las características sociodemográficas del productor en el Modelo 4, el coeficiente de interés se mantiene comprimido y no significativo ($0.0266$ y $0.0202$, respectivamente). Este patrón evidencia que, a escala nacional agregada, el control por choques agroclimáticos y demografía individual resulta insuficiente para separar el efecto puro de la semilla de las disparidades estructurales que existen entre las distintas zonas agrícolas del país.
+
+Finalmente, al introducir los efectos fijos departamentales en el Modelo 5, el parámetro estimado para la semilla certificada experimenta un rebote significativo hasta $0.0982$ ($p < 0.01$), elevando el ajuste global del modelo a un $R^2 = 0.5502$. Este comportamiento demuestra que la adopción tecnológica y los rendimientos agronómicos varían conjuntamente entre regiones debido a factores agroecológicos e institucionales no observados. Mientras que departamentos como San Martín concentran un alto nivel de tecnificación y rendimientos base elevados, los valles costeros o las zonas altoandinas presentan dinámicas espaciales muy distintas. Al omitir esta heterogeneidad territorial, los Modelos 2 al 4 sufrían un sesgo de atenuación por variable omitida espacial; únicamente al aislar la variación interna dentro de cada departamento (\textit{within-group variation}) emerge el verdadero impacto productivo positivo del $+10.32$ \% atribuible a la semilla certificada.
+
+\subsubsection{Variables de control individuales, productivas y choques climáticos}
+Respecto a la disponibilidad hídrica, el acceso a una fuente de riego artificial (río, pozo, represa) arroja un coeficiente de $0.4858$ ($p < 0.01$), lo que representa un incremento exacto del $\mathbf{+62.55 \%}$ ($\exp(0.4858)-1$) frente a parcelas de secano. Por magnitud y consistencia, es el determinante productivo individual más relevante, confirmando los postulados de la \citet{fao2011} sobre el agua como factor limitante en la agricultura arrocera.
+
+Todos los choques ambientales y fitosanitarios presentan signos negativos consistentes con la fundamentación teórica de \citet{schlenker2009}. En particular, la incidencia de plagas y enfermedades reduce la cosecha en un $\mathbf{-12.39 \%}$ ($\hat{\beta} = -0.1323$, $p < 0.01$), mientras que las lluvias fuera de temporada provocan una contracción del $\mathbf{-17.86 \%}$ ($\hat{\beta} = -0.1968$, $p < 0.01$). Asimismo, la ocurrencia de sequías genera una pérdida productiva del $\mathbf{-7.86 \%}$ ($\hat{\beta} = -0.0818$, $p < 0.05$) y la presencia de otros factores climáticos adversos (tales como heladas, granizadas o inundaciones repentinas) ocasiona la merma agronómica más drástica del cultivo, estimada en un $\mathbf{-30.43 \%}$ ($\hat{\beta} = -0.3629$, $p < 0.01$).
+
+En cuanto a la dimensión sociodemográfica y la equidad de género, la conducción de la unidad agropecuaria por una mujer productora presenta un coeficiente de $-0.0733$ ($p < 0.01$), lo que indica un rendimiento promedio $\mathbf{-7.07 \%}$ inferior en comparación con los productores varones. Este hallazgo concuerda con la evidencia de \citet{aguilar2015} respecto a las brechas rurales de género en el acceso a crédito formal, titularidad de tierras, asistencia técnica e insumos productivos de calidad. Por otra parte, la posesión de educación superior por parte del conductor agropecuario incrementa el rendimiento en un $\mathbf{+6.93 \%}$ ($\hat{\beta} = 0.0670$, $p < 0.01$), producto de una mayor capacidad técnica en la gestión del cultivo y dosificación de nutrientes. En contraste, la edad del productor muestra un parámetro prácticamente nulo ($0.0001$, $p = 0.807$), demostrando que al controlar por la ubicación territorial departamental, los años de experiencia acumulada no ejercen un efecto explicativo independiente sobre la productividad del arroz cáscara.
+
+\subsubsection{Efectos fijos departamentales y pruebas de significancia conjunta}
+Los coeficientes $\hat{\gamma}_j$ miden la diferencia porcentual del rendimiento de cada región en comparación con San Martín (código 14, categoría base), controlando por todo el vector de insumos, clima y demografía. 
+
+Tomando como referencia a Arequipa ($\hat{\gamma} = 0.4987$, $p < 0.01$), una parcela arequipeña con idénticas características tecnológicas y climáticas que una de San Martín rinde en promedio un $\mathbf{+64.66 \%}$ más ($\exp(0.4987)-1$). Esto refleja la superioridad agroecológica y de infraestructura de riego de valles costeros como Majes y Tambo frente a las cuencas amazónicas. Un patrón similar y altamente significativo ($p < 0.01$) se observa en Áncash ($\mathbf{+55.83 \%}$) y La Libertad ($\mathbf{+44.15 \%}$). En el extremo opuesto, regiones con condiciones marginales para el arroz o dependientes de lluvias exhiben penalizaciones severas: Junín ($\mathbf{-56.96 \%}$, $\hat{\gamma} = -0.8428$, $p < 0.01$), Madre de Dios ($\mathbf{-46.23 \%}$) y Loreto ($\mathbf{-20.47 \%}$).
+
+La solidez estadística general y la relevancia explicativa de los grupos de covariables fueron contrastadas mediante pruebas de significancia conjunta de Wald. El bloque de choques climáticos (conformado por las cuatro variables ambientales) arrojó un estadístico de $F(4, 1966) = 21.56$ ($p < 0.0001$), demostrando que como conjunto ejercen un impacto adverso altamente significativo sobre la cosecha. De igual manera, el bloque sociodemográfico (sexo, educación y edad) obtuvo un estadístico de $F(3, 1966) = 6.62$ ($p = 0.0002$), confirmando que el capital humano individual contribuye de forma conjunta a explicar las variaciones productivas. Finalmente, el bloque de efectos fijos departamentales (conformado por 14 variables indicadoras acopladas al modelo definitivo) alcanzó el estadístico más elevado con $F(14, 1966) = 63.65$ ($p < 0.0001$), constituyendo el componente con mayor poder explicativo para absorber la heterogeneidad territorial, en total concordancia con los postulados de \citet{escobal2002}.
+
+\subsubsection{Diagnósticos post-estimación y discusión con la literatura}
+El análisis de multicolinealidad mediante el Factor de Inflación de Varianza arrojó un $VIF$ medio de solo $2.06$ (máximo individual de $6.00$ para Arequipa por peso muestral), muy por debajo del umbral de riesgo ($VIF \ge 10$), confirmando que $\text{semillas\_certificadas}$ ($VIF = 1.28$) no compite por colinealidad con el agua ni el clima. Asimismo, el test de Breusch-Pagan/Cook-Weisberg arrojó $\chi^2(1) = 108.20$ ($p < 0.001$), rechazando la homocedasticidad y justificando plenamente la adopción de errores estándar robustos de Huber-White (\texttt{vce(robust)}).
+
+En perspectiva comparada, el impacto estimado del $+10.32$ \% en el arroz peruano resulta coherente pero más modesto que las ganancias reportadas en la literatura internacional por \citet{takeshima2025} en Nigeria y \citet{abdul2021} en Ghana. Esta diferencia responde a que dichos antecedentes emplean métodos experimentales o variables instrumentales que aíslan choques exógenos puros de adopción, mientras que nuestra estimación de corte transversal MCO condicional identifica una relación paramétrica robusta controlando por una extensa batería de covariables, pero sin variación experimental directa en la decisión de compra, limitación inherente a modelos cross-section condicionales \citep{wooldridge}. Finalmente, en el contexto peruano, mientras que \citet{matallana2022} analiza rentabilidad agregada usando datos secundarios de MIDAGRI e INIA, nuestra investigación aporta la primera evidencia microeconométrica nacional y representativa (ENA 2024) que cuantifica de forma rigurosa el efecto físico directo de la semilla certificada sobre los kilogramos por hectárea del productor arrocero, aislando el factor agua y la heterogeneidad regional.
 
 \section{Conclusiones}
 Las conclusiones deben finalizar sintetizando los principales hallazgos del estudio, destacando el impacto cuantitativo del $+10.32$ \% de la semilla certificada sobre el rendimiento del arroz cáscara en el Perú. Asimismo, se deben proponer recomendaciones de política agrícola orientadas a subsidiar y expandir la adopción de semillas certificadas en parcelas de pequeña escala y mencionar las limitaciones de la investigación.
 
 % --- SECCIÓN DE REFERENCIAS APA 7 (NATBIB VINCULADO) ---
-\begin{thebibliography}{9}
+\begin{thebibliography}{35}
+\scriptsize
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
 
-\bibitem[Instituto Nacional de Estadística e Informática(2024)]{inei} 
+\bibitem[Abdul-Rahaman y Abdulai(2021)]{abdul2021} 
+Abdul-Rahaman, A., \& Abdulai, A. (2021). Do farmer groups impact on farm yield and efficiency of smallholder farmers? Evidence from rice farmers in Northern Ghana. \textit{Food Policy}, 101, 102066. \url{https://doi.org/10.1016/j.foodpol.2020.102066}
+
+\bibitem[Aguilar et al.(2015)]{aguilar2015} 
+Aguilar, A., Carranza, E., Goldstein, M., Kilic, T., \& Oseni, G. (2015). Descomposición de las diferencias de género en la productividad agrícola en Etiopía. \textit{Agricultural Economics}, 46, 311--334.
+
+\bibitem[Alston et al.(2021)]{alston2021} 
+Alston, J. M., Pardey, P. G., \& Rao, X. (2021). The economics of agricultural innovation. En C. B. Barrett \& D. R. Just (Eds.), \textit{Handbook of Agricultural Economics} (Vol. 5, pp. 3895--3980). Elsevier. \url{https://doi.org/10.1016/bs.hesagr.2021.10.001}
+
+\bibitem[Battese et al.(2004)]{battese2004} 
+Battese, G. E., Rao, D. S. P., \& O'Donnell, C. J. (2004). A metafrontier production function for estimation of technical efficiencies and technology gaps for firms operating under different technologies. \textit{Journal of Productivity Analysis}, 21, 91--103.
+
+\bibitem[Correia(2015)]{correia2015} 
+Correia, S. (2015). Singletons, cluster-robust standard errors and fixed effects: A bad mix. \textit{Technical Note, Duke University}, 7(9), 1--7. \url{https://scorreia.com/research/singletons.pdf}
+
+\bibitem[Dewi et al.(2026)]{dewi2026} 
+Dewi, Y. A., Bahru, B. A., \& Zeller, M. (2026). Revealing the effect of agricultural interventions on technical efficiency: Empirical evidence from Indonesian smallholder rice farmers. \textit{Agricultural and Food Economics}, 14, 16. \url{https://doi.org/10.1186/s40100-026-00454-1}
+
+\bibitem[El Bakali et al.(2023)]{elbakali2023} 
+El Bakali, I., Brouziyne, Y., Ait El Mekki, A., Maatala, N., \& Harbouze, R. (2024). The impact of policies on the diffusion of agricultural innovations: Systematic review on evaluation approaches. \textit{Outlook on Agriculture}, 53(1), 3--22. \url{https://doi.org/10.1177/00307270231215837}
+
+\bibitem[Escobal y Ponce(2002)]{escobal2002} 
+Escobal, J., \& Ponce, C. (2002). \textit{El beneficio de los caminos rurales en el Perú}. Grupo de Análisis para el Desarrollo (GRADE). \url{https://biblioteca.clacso.edu.ar/Peru/grade/20100511023603/ddt40ES.pdf}
+
+\bibitem[Evenson y Gollin(2003)]{evenson2003} 
+Evenson, R. E., \& Gollin, D. (2003). Assessing the impact of the Green Revolution, 1960 to 2000. \textit{Science}, 300(5620), 758--762. \url{https://doi.org/10.1126/science.1078710}
+
+\bibitem[FAO(2011)]{fao2011} 
+FAO. (2011). \textit{The state of the world's land and water resources for food and agriculture (SOLAW): Managing systems at risk}. Food and Agriculture Organization of the United Nations; Earthscan. \url{https://www.fao.org/3/i1688e/i1688e.pdf}
+
+\bibitem[FAO(2016)]{fao2016} 
+FAO. (2016). \textit{El Estado mundial de la agricultura y la alimentación 2016}. Food and Agriculture Organization of the United Nations. \url{https://www.fao.org/agrifood-economics/publications/detail/es/c/1179968/}
+
+\bibitem[FAO y AfricaSeeds(2019)]{fao2019} 
+FAO y AfricaSeeds. (2019). \textit{Materiales para capacitación en semillas. Módulo 3: Control de calidad y certificación de semillas}. Organización de las Naciones Unidas para la Alimentación y la Agricultura. \url{https://www.fao.org/3/ca1492es/CA1492ES.pdf}
+
+\bibitem[FAO(2023)]{fao2023} 
+FAO. (2023). \textit{FAOSTAT: Crops and livestock products. Metadata}. Food and Agriculture Organization of the United Nations. \url{https://www.fao.org/faostat/}
+
+\bibitem[Feder et al.(1985)]{feder1985} 
+Feder, G., Just, R. E., \& Zilberman, D. (1985). Adoption of agricultural innovations in developing countries: A survey. \textit{Economic Development and Cultural Change}, 33(2), 255--298. \url{https://doi.org/10.1086/451461}
+
+\bibitem[Halvorsen y Palmquist(1980)]{halvorsen1980} 
+Halvorsen, R., \& Palmquist, R. (1980). The interpretation of dummy variables in semilogarithmic equations. \textit{American Economic Review}, 70(3), 474--475.
+
+\bibitem[Huang et al.(2014)]{huang2014} 
+Huang, C. J., Huang, T. H., \& Liu, N. H. (2014). A new approach to estimating the metafrontier production function based on a stochastic frontier framework. \textit{Journal of Productivity Analysis}, 42, 241--254.
+
+\bibitem[INEI(2024)]{inei} 
 Instituto Nacional de Estadística e Informática. (2024). \textit{Encuesta Nacional Agropecuaria (ENA) 2024}. INEI.
 
+\bibitem[INEI(2024a)]{inei2024a} 
+Instituto Nacional de Estadística e Informática. (2024a). \textit{Encuesta Nacional Agropecuaria (ENA) 2024: Ficha técnica y metodología}. INEI. \url{https://www.gob.pe/inei}
+
+\bibitem[INEI(2024b)]{inei2024b} 
+Instituto Nacional de Estadística e Informática. (2024b). \textit{Encuesta Nacional Agropecuaria (ENA) 2024: Manual del encuestador e instrumentos de recolección}. INEI.
+
+\bibitem[Just y Pope(1979)]{just1979} 
+Just, R. E., \& Pope, R. D. (1979). Production function estimation and related risk considerations. \textit{American Journal of Agricultural Economics}, 61(2), 276--284. \url{https://doi.org/10.2307/1239732}
+
+\bibitem[Key et al.(2000)]{key2000} 
+Key, N., Sadoulet, E., \& Janvry, A. D. (2000). Costos de transacción y respuesta de la oferta de los hogares agrícolas. \textit{American Journal of Agricultural Economics}, 82, 245--259. \url{https://doi.org/10.1111/0002-9092.00022}
+
+\bibitem[Li et al.(2024)]{li2024} 
+Li, Y., Herzog, F., Levers, C., et al. (2024). Agricultural technology as a driver of sustainable intensification: Insights from the diffusion and focus of patents. \textit{Agronomy for Sustainable Development}, 44, Article 14. \url{https://doi.org/10.1007/s13593-024-00949-5}
+
+\bibitem[Louwaars y De Jonge(2021)]{louwaars2021} 
+Louwaars, N. P., \& De Jonge, B. (2021). Regulating seeds---A challenging task. \textit{Agronomy}, 11(11), 2324. \url{https://doi.org/10.3390/agronomy11112324}
+
 \bibitem[Lozares et al.(1998)]{lozares1998} 
-Lozares, C., López Roldán, P., \& Martí, J. (1998). \textit{La relación entre las variables cuantitativas y cualitativas en el análisis log-lineal}. \textit{Papers: Revista de Sociología}, 56, 151--176.
+Lozares, C., López Roldán, P., \& Borrás, V. (1998). La complementariedad del log-lineal y del análisis de correspondencias en la elaboración y el análisis de tipología. \textit{Papers: Revista de Sociología}, 55, 79--93. \url{https://doi.org/10.5565/rev/papers.1933}
+
+\bibitem[Macours(2019)]{macours2019} 
+Macours, K. (2019). Farmers' demand and the traits and diffusion of agricultural innovations in developing countries. \textit{Annual Review of Resource Economics}, 11, 483--499. \url{https://doi.org/10.1146/annurev-resource-100518-094045}
+
+\bibitem[Matallana(2022)]{matallana2022} 
+Matallana R. (2022). \textit{Evaluación de beneficios económicos y ambientales del uso de semilla certificada de arroz (Oryza sativa) en el Perú}. MIDAGRI e INIA.
+
+\bibitem[O'Donnell et al.(2008)]{odonnell2008} 
+O'Donnell, C. J., Rao, D. S. P., \& Battese, G. E. (2008). Metafrontier frameworks for the study of firm-level efficiencies and technology ratios. \textit{Empirical Economics}, 34, 231--255.
+
+\bibitem[Okello et al.(2023)]{okello2023} 
+Okello, J. J., Shikuku, K. M., Lagerkvist, C. J., Rommel, J., Jogo, W., Ojwang, S., Namanda, S., \& Elungat, J. (2023). Social incentives as nudges for agricultural knowledge diffusion and willingness to pay for certified seeds: Experimental evidence from Uganda. \textit{Food Policy}, 120, 102506. \url{https://doi.org/10.1016/j.foodpol.2023.102506}
+
+\bibitem[Rogers(2003)]{rogers2003} 
+Rogers, E. M. (2003). \textit{Diffusion of innovations} (5th ed.). Free Press.
+
+\bibitem[Schlenker y Roberts(2009)]{schlenker2009} 
+Schlenker, W., \& Roberts, M. J. (2009). Nonlinear temperature effects indicate severe damages to US crop yields under climate change. \textit{Proceedings of the National Academy of Sciences}, 106(37), 15594--15598. \url{https://doi.org/10.1073/pnas.0906865106}
+
+\bibitem[Takeshima(2025)]{takeshima2025} 
+Takeshima, H. (2025). \textit{Seed certification and agricultural productivity: Evidence from Nigeria}. IFPRI Research Paper.
 
 \bibitem[Wooldridge(2010)]{wooldridge} 
 Wooldridge, J. M. (2010). \textit{Introducción a la econometría: Un enfoque moderno} (4.\textsuperscript{a} ed.). Cengage Learning.
