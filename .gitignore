@@ -5,3 +5,14 @@ Descargas_INEI_ZIP/
 973-Modulo*/
 Resultados/
 *.log
+*.do.stswp
+
+# Archivos auxiliares de compilación LaTeX
+*.aux
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+*.toc
+*.fls
+*.fdb_latexmk

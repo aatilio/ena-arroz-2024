@@ -1,0 +1,283 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+% --- PAQUETES ESTÁNDARES Y SEGUROS ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel} % Configura idioma y renombra "Cuadro" a "Tabla"
+\usepackage[margin=2.3cm, headheight=15pt, headsep=0.7cm]{geometry} % Márgenes del documento
+\usepackage{amsmath, amssymb, amsfonts} % Herramientas matemáticas para econometría
+\usepackage{booktabs} % Diseña tablas limpias estilo Journal (estilo AEA)
+\usepackage{tabularx} % Tablas que se ajustan automáticamente al 100% del ancho de página (\textwidth)
+\usepackage{caption} % Personalización de títulos de tablas y figuras
+\usepackage{fancyhdr} % Control de encabezados profesionales
+\usepackage{setspace} % Control de interlineados
+
+\usepackage{mathptmx} % Fuente Times New Roman (Texto y Matemáticas) 100% nativa y segura para MiKTeX
+
+% --- CITACIÓN APA 7 Y ENLACES INTERACTIVOS (VINCULACIÓN) ---
+\usepackage{xcolor} % Paquete de gestión de colores
+\definecolor{darkblue}{RGB}{0, 45, 135} % Azul oscuro elegante y seguro para los enlaces
+\usepackage[round, authoryear]{natbib} % Permite formato (Autor, Año) estilo APA 7
+\usepackage[colorlinks=true, linkcolor=darkblue, citecolor=darkblue, urlcolor=darkblue]{hyperref} % Enlaces cliqueables en tablas y referencias
+
+% --- CONFIGURACIÓN DE COLUMNAS ---
+\setlength{\columnsep}{0.75cm} % Espaciado elegante entre las dos columnas
+
+% --- CONFIGURACIÓN DE ENCABEZADOS Y PIE DE PÁGINA ---
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{\small\raisebox{3pt}{Semillas certificadas y rendimiento agrícola en el Perú (2024)}} 
+\fancyfoot[C]{\small\thepage} % Número de página ABAJO Y CENTRADO en todas las páginas
+\renewcommand{\headrulewidth}{0.4pt} % Línea divisoria superior sutil
+\renewcommand{\footrulewidth}{0pt} % Sin línea inferior
+
+% Estilo exclusivo para la página 1 (portada sin línea superior)
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\thepage} % Número "1" abajo en el centro inferior
+  \renewcommand{\headrulewidth}{0pt} % Sin línea superior en la portada
+}
+
+% --- CAPTION ESTILO ELSEVIER / APA (Título en negrita, salto de línea, alineado a la izquierda sin cursiva) ---
+\captionsetup[table]{labelfont=bf, textfont=normalfont, labelsep=newline, justification=raggedright, singlelinecheck=false, position=top}
+
+\begin{document}
+
+% --- PORTADA Y ABSTRACT EN UNA COLUMNA ---
+\twocolumn[
+  \begin{center}
+    \vspace*{3.5cm} 
+    
+    {\LARGE \bfseries Efecto del uso de semillas certificadas sobre el rendimiento agrícola del cultivo de arroz cáscara en las unidades agropecuarias del Perú: Evidencia del año 2024 \par}
+    \vspace{0.8cm}
+    
+    {\normalsize Ccanchi Quispe, Alex Nicolas; Condori Arapa, Alan Atilio; Flores Condo, Maribel; López Pérez, Fabinho Jorge; Mamani Calisaya, Eduardo Fabian; Medina Huarsaya, Christopher Luis; Morante Torres, Carlos Estefano; Quispe Castillo, Rose Sthefany; Suri Huamani, Dayana Betsabeth; Villavicencio Chire, Sebastian Enrique; Yauri Moran, Gabriel Alexander \par}
+    \vspace{2.0cm}
+    
+    \begin{minipage}{0.85\linewidth}
+      \small
+      \begin{center}
+        \textbf{\large Abstract}
+      \end{center}
+      \vspace{-0.2cm}
+      \setstretch{1.2} 
+      El presente estudio analiza la relación entre el acceso a servicios de agua y saneamiento y el gasto per cápita de los hogares peruanos durante el año 2025, bajo la perspectiva de la economía ambiental y el desarrollo sustentable. La investigación tiene una finalidad aplicada, de índole explicativa-correlacional, cuantitativa, no experimental y de corte transversal, utilizando la información proveniente de la Encuesta Nacional de Hogares (ENAHO), específicamente de los módulos 1 y 34 (Características de la Vivienda y del Hogar y Sumarias, respectivamente). Metodológicamente, se empleó un modelo de regresión lineal múltiple estimado mediante Mínimos Cuadrados Ordinarios (MCO), considerando como variable dependiente el logaritmo del gasto mensual por individuo del hogar y, como variables independientes, el acceso a servicios de agua y saneamiento. De la misma manera, se incorporaron variables de control relacionadas con el acceso a electricidad, estrato geográfico y características de la vivienda. Los resultados ponen de manifiesto la relación positiva y estadísticamente significativa entre el acceso a servicios de saneamiento y el gasto per cápita de los hogares (19.5 \%, ceteris paribus), una asociación cualitativamente superior a la del servicio de agua potable. Se concluye, por tanto, que la reducción de externalidades sanitarias es un determinante fundamental en lo que respecta al bienestar, siendo la inversión en saneamiento estratégica para el recorte de brechas de pobreza entre el sector urbano y rural en el país.
+
+      \vspace{0.6cm}
+      
+      \noindent \textbf{Keywords:} certified seeds, agricultural yield, rice, Peru, multiple regression.
+    \end{minipage}
+    \vspace*{2.0cm}
+  \end{center}
+]
+
+\thispagestyle{plain} 
+\clearpage 
+
+% --- CUERPO DEL PAPER ---
+
+\section{Introducción}
+En este apartado se debe desarrollar la contextualización del problema siguiendo un enfoque de embudo: comenzando por el contexto global de la productividad agrícola, pasando al ámbito regional de América Latina, y finalizando con la situación específica del Perú. Se debe plantear claramente la pregunta de investigación y presentar la justificación del estudio utilizando los microdatos de la Encuesta Nacional Agropecuaria (ENA 2024). Finalmente, se exponen los objetivos principales y la estructura del documento.
+
+\section{Marco teórico, marco conceptual y revisión de literatura}
+
+\subsection{Marco teórico}
+Se deben integrar de dos a cuatro teorías económicas que sustenten la investigación de manera argumentativa conjunta. Se sugiere incorporar la Teoría de la Función de Producción, la Teoría de la Difusión de Innovaciones y la perspectiva del Capital Humano aplicado a la adopción tecnológica en el sector agrícola.
+
+\subsection{Marco conceptual}
+Aquí se presenta formalmente la Encuesta Nacional Agropecuaria (ENA 2024) elaborada por el Instituto Nacional de Estadística e Informática (INEI). Asimismo, se definen conceptualmente las variables clave del estudio: el rendimiento agrícola, el uso de semillas certificadas y las variables de control seleccionadas (sintetizadas formalmente en la Sección 3 dentro de la Tabla \ref{tab:variables}).
+
+\subsection{Estado del arte}
+Revisión analítica de estudios previos tanto a nivel nacional como internacional. Para cada antecedente se debe seguir un orden estricto: Autor y año, fuente de datos, metodología econométrica aplicada y el resultado cuantitativo principal con su respectiva cifra o coeficiente.
+
+\clearpage % Salto de página para que Metodología inicie en la parte superior de una hoja nueva
+\section{Metodología, análisis de datos y resultados}
+
+\subsection{Método y tipo de investigación}
+La investigación adoptó una naturaleza cuantitativa, de tipo explicativo-correlacional, orientada a estimar el efecto del uso de semillas certificadas sobre el rendimiento agrícola del cultivo de arroz cáscara en las unidades agropecuarias del Perú. El diseño fue no experimental, de corte transversal y \textit{ex post facto}, debido a que las variables se observaron tal como se presentan en la realidad, sin manipulación, en un único corte temporal correspondiente al año 2024.
+
+El estudio dispuso como técnica e instrumento de recolección de datos la revisión documental y la ficha de recopilación, respectivamente. La fuente de información fue la Encuesta Nacional Agropecuaria (ENA) 2024, ejecutada por el \citet{inei}. Esta encuesta cuenta con representatividad nacional y un diseño muestral probabilístico, además de constituir la fuente oficial para el estudio de la actividad agropecuaria en el país. Para efectos de la presente investigación, se emplearon dos capítulos de la ENA 2024: el Capítulo 200 (Partes A y B) [Módulo 1895], que registra la producción, superficie, prácticas de siembra y factores climáticos por parcela, y el Capítulo 1100 [Módulo 1911], que recoge las características sociodemográficas del productor/a agropecuario/a y su hogar. Ambos capítulos se integraron mediante un procedimiento de \textit{merge} (unión de base de datos) por medio de las llaves geográficas y de identificación de la unidad agropecuaria.
+
+La población estuvo conformada por las unidades agropecuarias productoras de arroz cáscara en el Perú. Para la determinación de la muestra, se aplicaron los siguientes criterios de exclusión sobre la población: i) se conservaron únicamente las observaciones correspondientes al cultivo de arroz cáscara; ii) se restringió la muestra a unidades agropecuarias con una sola cosecha anual, con el propósito de reducir la heterogeneidad asociada a distintos calendarios de siembra; iii) se omitieron las observaciones a las que no les fue posible emparejarse entre ambos capítulos de la encuesta; y iv) se excluyeron los registros con valores no positivos o perdidos en el rendimiento agrícola y en la variable de semillas certificadas (regresor principal), a razón de impedir estos la construcción del modelo. Bajo la aplicación de los anteriores criterios, la muestra final del estudio quedó compuesta por 1,992 unidades agropecuarias.
+
+\subsection{Estadísticas descriptivas de la muestra}
+Tal como se reporta en la Tabla \ref{tab:descriptivas}, el logaritmo natural del rendimiento agrícola ($\ln(\text{Rendimiento})$) presenta una media de $8.9589$ ($\text{DE} = 0.4752$), con valores mínimo y máximo de $7.0048$ y $9.6411$, respectivamente. Respecto a la variable independiente principal, el 78.36 \% de las parcelas de la muestra ($\text{Media} = 0.7836$) utilizó semillas certificadas durante la campaña agrícola 2024.
+
+En cuanto a las variables de control, el 94.68 \% de las unidades agropecuarias registró una fuente de agua superficial o subterránea distinta a la lluvia exclusivamente ($\text{Media} = 0.9468$). Por el lado de los choques adversos durante la campaña, la mayor incidencia corresponde a plagas y enfermedades (22.19 \% de las parcelas), seguido por sequías (3.71 \%), otros factores adversos (2.01 \%) y lluvias a destiempo (1.51 \%). 
+
+Finalmente, las características sociodemográficas revelan que la edad del productor agropecuario tiene un promedio de $55.597$ años ($\text{DE} = 13.236$, con un rango muestral de $17.000$ a $98.000$ años), mientras que la participación de mujeres productoras como conductoras principales es del 13.20 \% ($\text{Media} = 0.1320$) y la proporción de agricultores con educación superior se sitúa en 18.22 \% ($\text{Media} = 0.1822$).
+
+% --- TABLA 2: ESTADÍSTICAS DESCRIPTIVAS ALINEADA A LA IZQUIERDA EN UNA COLUMNA ---
+\begin{table}[bp]
+\raggedright % Alineación al margen izquierdo exacto
+\scriptsize % Letra compacta
+\caption{Estadísticas descriptivas de la muestra ($N=1,992$)}
+\label{tab:descriptivas}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcccc@{}}
+\toprule
+\textbf{Variable} & \textbf{Media} & \textbf{Desv. Est.} & \textbf{Mín.} & \textbf{Máx.} \\
+\midrule
+$\ln(\text{Rendimiento})$ & 8.9589 & 0.4752 & 7.0048 & 9.6411 \\
+Semillas certificadas     & 0.7836 & 0.4119 & 0.0000 & 1.0000 \\
+Fuente de agua            & 0.9468 & 0.2245 & 0.0000 & 1.0000 \\
+Sequía                    & 0.0371 & 0.1892 & 0.0000 & 1.0000 \\
+Lluvias a destiempo       & 0.0151 & 0.1218 & 0.0000 & 1.0000 \\
+Plagas y enfermedades     & 0.2219 & 0.4156 & 0.0000 & 1.0000 \\
+Otros factores            & 0.0201 & 0.1403 & 0.0000 & 1.0000 \\
+Mujer productora          & 0.1320 & 0.3386 & 0.0000 & 1.0000 \\
+Educación superior        & 0.1822 & 0.3861 & 0.0000 & 1.0000 \\
+Edad del productor        & 55.597 & 13.236 & 17.000 & 98.000 \\
+\bottomrule
+\end{tabular*}
+\vspace{2pt}\par\noindent{\scriptsize \textit{Nota.} Elaboración propia con base en microdatos de la ENA 2024 (INEI). Panel balanceado de 1,992 parcelas de arroz cáscara.\par}
+\end{table}
+
+\subsection{Especificación del modelo econométrico}
+Dada la naturaleza continua de la variable dependiente, el rendimiento agrícola, se empleó un modelo de regresión lineal múltiple estimado por el método de Mínimos Cuadrados Ordinarios (MCO), aquella técnica econométrica que permite estimar los parámetros de regresión lineal minimizando la suma de los cuadrados de los residuos, asegurando bajo ciertos supuestos estimadores insesgados y eficientes \citep{wooldridge}. En su continuación, el rendimiento se transformó a su logaritmo natural (modelo log-lineal) con el objetivo de reducir la asimetría de su distribución y posibilitar que los coeficientes se interpreten como cambios porcentuales aproximados ante variaciones en las variables explicativas \citep{lozares1998}.
+
+Por tanto, el modelo econométrico general se expresa de la siguiente manera:
+\begin{equation}
+\scriptsize
+\ln(\text{Rendimiento})_i = \beta_0 + \beta_1 \text{Semillas\_Certificadas}_i + X_i \cdot \Gamma + \varepsilon_i
+\end{equation}
+
+Donde $X_i$ representa un vector de variables de control incorporadas con el objetivo de aislar el efecto del uso de semillas certificadas sobre el rendimiento agrícola y reducir el posible sesgo por omisión de variables relevantes. Dicho vector comprende variables asociadas a las condiciones productivas del cultivo, como el acceso a una fuente de agua distinta de la lluvia; factores climáticos y fitosanitarios que afectaron la producción durante la campaña agrícola (sequía, lluvias a destiempo, plagas y enfermedades, y otros factores); características sociodemográficas del productor (sexo, edad y nivel educativo); y la ubicación geográfica de la unidad agropecuaria, representada por el departamento donde se desarrolla la actividad agrícola.
+
+A partir de la especificación presentada anteriormente, el modelo econométrico estimado incorpora explícitamente la variable explicativa principal y las variables de control seleccionadas, obteniéndose la siguiente especificación funcional desplegada:
+\begin{equation}
+\scriptsize
+\begin{split}
+    \ln(\text{Rendimiento})_i &= \beta_0 + \beta_1 \text{Semillas\_Certificadas}_i + \beta_2 \text{Fuente\_Agua}_i \\
+    &\quad + \beta_3 \text{Sequía}_i + \beta_4 \text{Lluvias\_Destiempo}_i \\
+    &\quad + \beta_5 \text{Plagas\_Enfermedades}_i + \beta_6 \text{Otros\_Factores}_i \\
+    &\quad + \beta_7 \text{Mujer\_Productora}_i + \beta_8 \text{Educación\_Superior}_i \\
+    &\quad + \beta_9 \text{Edad\_Productor}_i + \text{ib14.Departamento}_i + \varepsilon_i
+\end{split}
+\end{equation}
+
+La Tabla \ref{tab:variables} resume formalmente la notación, definición conceptual y forma de medición de todas las variables empleadas en la estimación del modelo econométrico.
+
+% --- TABLA 1: DEFINICIÓN DE VARIABLES (Posicionada en Metodología) ---
+\begin{table*}[t]
+\raggedright
+\footnotesize 
+\caption{Definición y medición de las variables del modelo econométrico}
+\label{tab:variables}
+\begin{tabularx}{\textwidth}{@{} l l X c @{}}
+\toprule
+\textbf{Variable} & \textbf{Notación} & \textbf{Definición} & \textbf{Medición} \\
+\midrule
+Rendimiento agrícola ($\ln$) & \texttt{ln\_rendimiento} & Logaritmo natural del rendimiento del cultivo (producción en kg entre superficie cosechada en hectáreas) & \begin{tabular}[c]{@{}c@{}}Cuantitativa\\ Continua\end{tabular} \\
+\addlinespace[0.08cm]
+Semillas certificadas & \texttt{semillas\_certificadas} & \begin{tabular}[c]{@{}l@{}}0 = No certificada\\ 1 = Certificada\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Fuente de agua & \texttt{fuente\_agua} & \begin{tabular}[c]{@{}l@{}}0 = Solo lluvia (secano)\\ 1 = Otra fuente (río, pozo, represa, etc.)\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Sequía & \texttt{sequia} & \begin{tabular}[c]{@{}l@{}}0 = No reportó sequía\\ 1 = Reportó sequía como factor adverso\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Lluvias a destiempo & \texttt{lluvias\_destiempo} & \begin{tabular}[c]{@{}l@{}}0 = No reportó lluvias fuera de temporada\\ 1 = Sí reportó\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Plagas y enfermedades & \texttt{plagas\_enfermedades} & \begin{tabular}[c]{@{}l@{}}0 = No reportó plagas o enfermedades\\ 1 = Sí reportó\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Otros factores climáticos & \texttt{otros\_factores} & \begin{tabular}[c]{@{}l@{}}0 = No reportó otros factores adversos\\ 1 = Sí reportó\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Mujer productora & \texttt{mujer\_productora} & \begin{tabular}[c]{@{}l@{}}0 = Productor hombre\\ 1 = Productora mujer\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Educación superior & \texttt{educacion\_superior} & \begin{tabular}[c]{@{}l@{}}0 = Educación básica o sin nivel\\ 1 = Educación superior ($\text{educ\_productor} \ge 7$)\end{tabular} & Dicotómica \\
+\addlinespace[0.08cm]
+Edad del productor & \texttt{edad\_productor} & Años de edad cumplidos del productor/a agropecuario & \begin{tabular}[c]{@{}c@{}}Cuantitativa\\ Continua\end{tabular} \\
+\addlinespace[0.08cm]
+Departamento & \texttt{departamento} & Departamento donde se ubica la unidad agropecuaria; efecto fijo regional (categoría base = San Martín) & \begin{tabular}[c]{@{}c@{}}Categórica\\ (16 cat.)\end{tabular} \\
+\bottomrule
+\end{tabularx}
+\vspace{2pt}\par\noindent{\footnotesize \textit{Nota.} La variable dependiente es el logaritmo natural del rendimiento agrícola (kg/ha); la variable independiente principal ($X_1$) es el uso de semillas certificadas. Las demás son variables de control: disponibilidad hídrica, choques climáticos, características del productor/a (sexo, educación, edad) y efectos fijos departamentales.\par}
+\end{table*}
+
+\subsection{Resultados y discusión econométrica}
+La Tabla \ref{tab:resultados} reporta las estimaciones de los cinco modelos OLS robustos para el logaritmo natural del rendimiento agrícola ($\ln(\text{Rendimiento})$). El Modelo (1) evalúa la relación bivariada simple, arrojando un coeficiente estimado de $\hat{\beta}_1 = 0.2509$ ($p < 0.01$). Sin embargo, este resultado exhibe un severo sesgo por omisión de variables correlacionadas (\textit{omitted variable bias}), pues atribuye a la semilla todo el premio productivo de la tecnificación agropecuaria. Al introducir el control de infraestructura hídrica en el Modelo (2), el coeficiente de semilla certificada disminuye abruptamente de $0.2509$ a $0.0191$ y pierde significancia estadística ($p > 0.10$). Este comportamiento econométrico revela una alta multicolinealidad estructural: los agricultores que adoptan semillas certificadas en el país son prácticamente los mismos que cultivan bajo riego ($\text{fuente\_agua} = 1$). Al no controlar por el agua en la regresión simple, la semilla absorbía el impacto positivo del riego ($1.1672$, equivalente a un rendimiento $\approx$ 221 \% superior frente a parcelas de secano). En los Modelos (3) y (4), al incorporar factores climáticos y sociodemográficos sin aislar el territorio, el coeficiente paramétrico se mantiene invariante en torno a $0.020$ sin significancia.
+
+% --- TABLA 3: RESULTADOS DE LAS ESTIMACIONES OLS ---
+\begin{table*}[t]
+\raggedright 
+\scriptsize 
+\caption{Resultados progresivos de las estimaciones OLS robustas para $\ln(\text{Rendimiento agrícola})$ ($N=1,992$)}
+\label{tab:resultados}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
+\toprule
+\textbf{Variables Independientes} & \textbf{Modelo (1)} & \textbf{Modelo (2)} & \textbf{Modelo (3)} & \textbf{Modelo (4)} & \textbf{Modelo (5)} \\
+\midrule
+Semillas certificadas ($X_1$) & 0.2509*** & 0.0191 & 0.0266 & 0.0202 & {0.0982***} \\
+                            & (0.0252)  & (0.0231) & (0.0225) & (0.0224) & {(0.0206)} \\
+Fuente de agua              &           & 1.1672*** & 1.1527*** & 1.1311*** & {0.4858***} \\
+                            &           & (0.0423) & (0.0422) & (0.0422) & {(0.0552)} \\
+Sequía                      &           &          & -0.0628  & -0.0593  & {-0.0818**} \\
+                            &           &          & (0.0463) & (0.0459) & {(0.0393)} \\
+Lluvias a destiempo         &           &          & -0.2819*** & -0.2874*** & {-0.1968***} \\
+                            &           &          & (0.0724) & (0.0718) & {(0.0617)} \\
+Plagas y enfermedades       &           &          & -0.1253*** & -0.1307*** & {-0.1323***} \\
+                            &           &          & (0.0210) & (0.0209) & {(0.0179)} \\
+Otros factores climáticos   &           &          & -0.4151*** & -0.4079*** & {-0.3629***} \\
+                            &           &          & (0.0617) & (0.0612) & {(0.0518)} \\
+Mujer productora            &           &          &          & -0.0387  & {-0.0733***} \\
+                            &           &          &          & (0.0254) & {(0.0214)} \\
+Educación superior          &           &          &          & 0.1319*** & {0.0670***} \\
+                            &           &          &          & (0.0226) & {(0.0196)} \\
+Edad del productor          &           &          &          & 0.0014** & {0.0001} \\
+                            &           &          &          & (0.0007) & {(0.0006)} \\
+Amazonas & & & & & 0.0738 (0.0485) \\
+Áncash & & & & & 0.4436*** (0.0543) \\
+Arequipa & & & & & 0.4987*** (0.0405) \\
+Ayacucho & & & & & -0.7023** (0.3278) \\
+Cajamarca & & & & & 0.1531*** (0.0523) \\
+Huánuco & & & & & -0.2049*** (0.0776) \\
+Junín & & & & & -0.8428*** (0.1928) \\
+La Libertad & & & & & 0.3657*** (0.0427) \\
+Lambayeque & & & & & 0.0975** (0.0400) \\
+Loreto & & & & & -0.2290*** (0.0850) \\
+Madre de Dios & & & & & -0.6204*** (0.0912) \\
+Pasco & & & & & -0.5369*** (0.0943) \\
+Piura & & & & & 0.0467 (0.0431) \\
+Tumbes & & & & & 0.1179* (0.0696) \\
+Ucayali & & & & & -0.3421*** (0.0570) \\
+\addlinespace[0.1cm]
+Constante ($\hat{\beta}_0$) & 8.7623*** & 7.8389*** & 7.8895*** & 7.8169*** & {8.2564***} \\
+                            & (0.0223)  & (0.0385) & (0.0386) & (0.0511) & {(0.0692)} \\
+\midrule
+Observaciones ($N$)         & 1,992     & 1,992    & 1,992    & 1,992    & {1,992} \\
+\bottomrule
+\end{tabular*}
+\vspace{2pt}\par\noindent{\scriptsize \textit{Nota.} Errores estándar robustos entre paréntesis (\texttt{vce(robust)}). Nivel de significancia: *** $p<0.01$, ** $p<0.05$, * $p<0.1$. El Modelo (5) incluye efectos fijos para los 16 departamentos arroceros de la muestra, tomando como referencia territorial al departamento de San Martín (código \texttt{ib14.departamento}).\par}
+\end{table*}
+
+El Modelo (5) constituye la especificación econométrica definitiva de la investigación, al incorporar los efectos fijos departamentales con base en San Martín. Al controlar estrictamente por la heterogeneidad geográfica, agroecológica e institucional entre regiones, el verdadero efecto neto condicional de las semillas certificadas ($\hat{\beta}_1$) emerge de manera estadísticamente altamente significativa ($p < 0.01$) con un coeficiente de $0.0982$. Dada la estructura log-lineal del modelo, la semielasticidad exacta del rendimiento frente al uso de semilla certificada se calcula mediante la transformación porcentual de Halvorsen y Palmquist (1980):
+\begin{equation}
+\scriptsize
+\begin{split}
+    \Delta\% \text{ Rendimiento} &= \left[ \exp(\hat{\beta}_1) - 1 \right] \times 100 \\
+    &= \left[ \exp(0.0982) - 1 \right] \times 100 = \mathbf{+10.32 \%}
+\end{split}
+\end{equation}
+
+De esta manera, manteniendo constantes el acceso al agua de riego, los choques fitosanitarios y climáticos, la escolaridad del conductor, su sexo y la región donde se ubica la finca, el uso de semillas certificadas incrementa el rendimiento del arroz cáscara en un 10.32 \% respecto al uso de semillas tradicionales o no verificadas.
+
+Respecto a las variables de control y los efectos fijos del Modelo (5), su comportamiento econométrico corrobora la coherencia teórica del estudio. El acceso a riego ($0.4858$, $p < 0.01$) otorga a los productores un premio productivo condicional del 62.55 \% frente a parcelas de secano, ratificando que el agua es el recurso limitante central en la productividad arrocera. Todos los choques fitosanitarios y climáticos muestran signos negativos y altamente significativos: las plagas y enfermedades reducen la cosecha en $-12.39$ \% ($p < 0.01$), las lluvias a destiempo en $-17.86$ \% ($p < 0.01$), la sequía en $-7.86$ \% ($p < 0.05$) y los otros factores adversos en $-30.43$ \% ($p < 0.01$). En el plano del capital humano y las brechas de género, la educación superior impacta positivamente ($\hat{\beta} = 0.0670$, $p < 0.01$), indicando que los agricultores con instrucción superior logran un 6.93 \% más de rendimiento. En contraste, la variable mujer productora arroja un coeficiente de $-0.0733$ ($p < 0.01$), reflejando una brecha de productividad estructural de $-7.07$ \% en contra de las conductoras agropecuarias, producto del acceso dispar al crédito formal, títulos de propiedad y asistencia técnica en el ámbito rural. Asimismo, los coeficientes departamentales (Panel B) evidencian las ventajas comparativas de los valles irrigados de la costa sobre la sierra y selva peruanas; tomando como base a San Martín ($\hat{\beta} = 0.000$), regiones costeras tecnificadas como Arequipa ($+64.66$ \%), Áncash ($+55.83$ \%) y La Libertad ($+44.15$ \%) muestran productividades significativamente superiores ($p < 0.01$), en contraposición a zonas dependientes de lluvias como Junín ($-56.96$ \%), Ayacucho ($-50.45$ \%) y Madre de Dios ($-46.23$ \%).
+
+Finalmente, la validez estadística e insesgamiento de los parámetros del Modelo (5) fue corroborada mediante pruebas post-estimación. El Factor de Inflación de Varianza (VIF) promedio se ubicó en $2.48$, muy por debajo del umbral crítico de $VIF \ge 10$, descartando problemas de multicolinealidad severa. Asimismo, ante el rechazo de la hipótesis nula de homocedasticidad en la prueba de Breusch-Pagan ($p < 0.01$), el uso de errores estándar robustos (\texttt{vce(robust)}) garantizó pruebas de hipótesis $t$ e intervalos de confianza completamente libres de sesgo distribucional residual. Respecto a la potencial endogeneidad de la adopción tecnológica por autoselección (\textit{selection bias}), se evaluó la estimación por Variables Instrumentales (IV/2SLS) empleando el módulo CAP700 (\textit{"Capacitación técnica en semillas"}). Sin embargo, dicho módulo reveló una restricción muestral estructural: el 90.66 \% de los productores arroceros carecía de este registro, reduciendo la muestra útil a apenas $N = 186$ observaciones y comportándose como un instrumento débil e inestable ($EE > 63,000$). No obstante, al aplicar la prueba de Durbin-Wu-Hausman sobre la submuestra comparable, el estadístico arrojó $p = 0.060 > 0.05$, por lo que no se rechaza la hipótesis nula de exogeneidad de las semillas certificadas. Por tanto, la teoría agronómica y la evidencia diagnóstica respaldan formalmente que el estimador MCO robusto del Modelo (5) es consistente, eficiente y metodológicamente superior.
+
+\section{Conclusiones}
+Las conclusiones deben finalizar sintetizando los principales hallazgos del estudio, destacando el impacto cuantitativo del $+10.32$ \% de la semilla certificada sobre el rendimiento del arroz cáscara en el Perú. Asimismo, se deben proponer recomendaciones de política agrícola orientadas a subsidiar y expandir la adopción de semillas certificadas en parcelas de pequeña escala y mencionar las limitaciones de la investigación.
+
+% --- SECCIÓN DE REFERENCIAS APA 7 (NATBIB VINCULADO) ---
+\begin{thebibliography}{9}
+
+\bibitem[Instituto Nacional de Estadística e Informática(2024)]{inei} 
+Instituto Nacional de Estadística e Informática. (2024). \textit{Encuesta Nacional Agropecuaria (ENA) 2024}. INEI.
+
+\bibitem[Lozares et al.(1998)]{lozares1998} 
+Lozares, C., López Roldán, P., \& Martí, J. (1998). \textit{La relación entre las variables cuantitativas y cualitativas en el análisis log-lineal}. \textit{Papers: Revista de Sociología}, 56, 151--176.
+
+\bibitem[Wooldridge(2010)]{wooldridge} 
+Wooldridge, J. M. (2010). \textit{Introducción a la econometría: Un enfoque moderno} (4.\textsuperscript{a} ed.). Cengage Learning.
+
+\end{thebibliography}
+
+\end{document}
