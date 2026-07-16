@@ -6,9 +6,8 @@ version 16.0
 local baseurl "https://proyectos.inei.gob.pe/iinei/srienaho/descarga/STATA"
 capture mkdir "Descargas_INEI_ZIP"
 
-display as result _n "══════════════════════════════════════════════════════════════════"
+display as result _n 
 display as result " DESCARGANDO Y DESCOMPRIMIENDO MÓDULOS ENA 2024 (INEI)..."
-display as result "══════════════════════════════════════════════════════════════════"
 
 * 2. BUCLE SIMPLE PARA DESCARGAR Y DESCOMPRIMIR LOS DOS MÓDULOS (1895 Y 1911)
 foreach mod in 1895 1911 {
@@ -25,9 +24,8 @@ foreach mod in 1895 1911 {
 capture shell rmdir /s /q "Descargas_INEI_ZIP"
 
 * 4. VERIFICACIÓN SIMPLE DE LOS ARCHIVOS
-display as result _n "══════════════════════════════════════════════════════════════════"
+display as result _n 
 display as result " RESUMEN FINAL DE DATOS EN DIRECTORIO"
-display as result "══════════════════════════════════════════════════════════════════"
 
 capture confirm file "973-Modulo1895\03_CAP200AB.dta"
 if _rc == 0  display as green "OK"

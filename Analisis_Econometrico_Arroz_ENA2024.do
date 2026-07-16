@@ -256,6 +256,17 @@ label variable departamento "Departamento"
 * (San Martín concentra históricamente el mayor volumen de producción de arroz cáscara en Perú)
 fvset base 14 departamento
 
+* ── C3.1. Región natural (Costa, Sierra, Selva) ──────────────────────────────
+* Se toma 100% directo de los registros oficiales de la base de datos de la ENA 2024 (Cap. 200, Var 12):
+capture confirm variable region
+if _rc {
+    clonevar region = REGION
+}
+label define lblregion 1 "Costa" 2 "Sierra" 3 "Selva", replace
+label values region lblregion
+label variable region "Región natural"
+tab region, missing
+
 * ── C4. Sexo del productor/a (dummy) ─────────────────────────────────────────
 * 1 = Mujer · 0 = Hombre
 * Controla posibles brechas de género en la adopción de tecnología agrícola
@@ -329,33 +340,24 @@ drop  if missing(semillas_certificadas)
 * 4. DEPURACIÓN DE CELDAS O GRUPOS UNITARIOS (Singletons / N <= 1)
 * ──────────────────────────────────────────────────────────────────────────────
 * Según Correia (2015), las categorías con una sola observación (singletons) en
-* modelos con efectos fijos o dummies deben eliminarse obligatoriamente, ya que
-* generan un sobreajuste artificial (residuo cero) y no aportan información para
-* identificar las pendientes ni la varianza del modelo.
+* modelos con efectos fijos o dummies deben eliminarse obligatoriamente.
+* NOTA METODOLÓGICA PARA EL PAPER:
+* Al tener el departamento de Ayacucho una sola observación (N_Ayacucho = 1),
+* MCO asigna a su dummy un coeficiente que hace el residuo de esa fila exactamente 0 (sobreajuste).
+* Por propiedad de MCO (Frisch-Waugh-Lovell), los coeficientes estimados de todas las demás variables
+* (Beta) son idénticos (no cambian en nada) se mantenga o se elimine la fila unitaria de Ayacucho.
+* Sin embargo, mantenerla incrementa artificialmente N y el número de clústeres, distorsionando
+* el factor de corrección de muestra finita de Huber-White y subestimando los errores estándar robustos.
+* Por tanto, eliminar el singleton purifica la inferencia estadística sin alterar las pendientes.
 
-local variables_categoricas departamento semillas_certificadas fuente_agua ///
-                            sequia lluvias_destiempo plagas_enfermedades ///
-                            otros_factores mujer_productora educacion_superior
+* NOTA METODOLÓGICA (CORREIA 2015):
+* En esta etapa se conservan las 1,992 observaciones iniciales (incluyendo Ayacucho N=1)
+* para poder estimar y exportar primero la regresión robusta de referencia (Tabla 4).
+* La purificación exacta del singleton según Correia (2015) ("Singletons, Cluster-Robust
+* Standard Errors and Fixed Effects: A Bad Mix") se aplicará explícitamente en la
+* Parte XIII, exportando luego el modelo definitivo purificado con N = 1,991 (Tabla 5).
 
-foreach var of local variables_categoricas {
-    * Paso 1: Contar cuántas observaciones tiene cada categoría de la variable
-    tempvar conteo_celda
-    bysort `var': gen `conteo_celda' = _N if !missing(`var')
-    
-    * Paso 2: Identificar si existen categorías con 1 sola observación (o menos)
-    count if `conteo_celda' <= 1 & !missing(`var')
-    
-    * Paso 3: Si se detectan celdas unitarias (N <= 1), eliminarlas e informar en consola
-    if r(N) > 0 {
-        display as yellow "   -> [Depuración N<=1] Eliminando " r(N) ///
-                          " observación(es) unitaria(s) en la variable: `var'"
-        drop if `conteo_celda' <= 1
-    }
-    
-    drop `conteo_celda'
-}
-
-di "Observaciones válidas tras depuración: " _N
+di "Observaciones válidas de referencia antes del filtrado de singletons: " _N
 
 * Conservar solo las variables necesarias
 * NOMBREDD  → variable de texto (solo referencia visual, no entra al modelo)
@@ -365,14 +367,14 @@ di "Observaciones válidas tras depuración: " _N
 keep ln_rendimiento semillas_certificadas fuente_agua ///
      sequia lluvias_destiempo plagas_enfermedades otros_factores ///
      mujer_productora educacion_superior edad_productor ///
-     departamento ///
+     departamento region ///
      CCDD NOMBREDD produccion_kg rendimiento
 
 * Ordenar columnas igual que la regresión: Y → X1 → controles → depto → resto al final
 order ln_rendimiento semillas_certificadas fuente_agua ///
       sequia lluvias_destiempo plagas_enfermedades otros_factores ///
       mujer_productora educacion_superior edad_productor ///
-      departamento ///
+      departamento region ///
       CCDD NOMBREDD produccion_kg rendimiento
 
 * Comprobación final
@@ -416,6 +418,13 @@ foreach var of varlist sequia lluvias_destiempo plagas_enfermedades otros_factor
 
 * Composición geográfica de la muestra
 tab NOMBREDD
+tab region
+
+* Tabla descriptiva por región natural en consola (Costa, Sierra, Selva)
+tabstat rendimiento produccion_kg ln_rendimiento semillas_certificadas fuente_agua ///
+        sequia lluvias_destiempo plagas_enfermedades otros_factores ///
+        mujer_productora educacion_superior edad_productor, ///
+        by(region) statistics(mean sd n) format(%9.2f) columns(statistics)
 
 
 * ══════════════════════════════════════════════════════════════════════════════
@@ -474,6 +483,39 @@ esttab using "Resultados\Tablas\Tabla_1_Descriptiva_General.rtf", replace ///
     label nonumber noobs nomtitle ///
     collabels("Media" "Desv. Est." "Mín." "Máx.") ///
     title("Tabla 1. Estadísticas descriptivas")
+
+
+* ── Effectsstadísticas Descriptivas por Región Nativa ──
+eststo clear
+* ── Exportación 100% Automática de Tabulación de Frecuencia por Región Nativa ──
+* Exporta exactamente la salida de ". tab region" (Freq. | Percent | Cum.)
+eststo clear
+estpost tabulate region
+esttab using "Resultados\Tablas\Tabla_Frecuencia_Region.rtf", replace ///
+    cells("b(label(Freq.)) pct(fmt(2) label(Percent)) cumpct(fmt(2) label(Cum.))") ///
+    noobs label nomtitle ///
+    title("Tabla. Distribución de productores por región natural (N=1,991)") ///
+    note("Nota: Cifras calculadas directamente de los registros de la ENA 2024.")
+
+esttab using "Resultados\Tablas\Tabla_Frecuencia_Region.tex", replace ///
+    cells("b(label(Freq.)) pct(fmt(2) label(Percent)) cumpct(fmt(2) label(Cum.))") ///
+    noobs label nomtitle ///
+    title("Tabla. Distribución de productores por región natural (N=1,991)") ///
+    note("Nota: Cifras calculadas directamente de los registros de la ENA 2024.") ///
+    booktabs alignment(D{.}{.}{-1})
+eststo clear
+
+* ── Exportación 100% Automática de Composición Geográfica (3 Tablas por Región) ──
+* Se calcula dinámicamente desde los registros del INEI sin matrices manuales ni redundancia
+eststo clear
+foreach r in 1 2 3 {
+    estpost tabulate departamento if region == `r'
+    esttab using "Resultados\Tablas\Tabla_Composicion_Region_`r'.rtf", replace ///
+        cells("b(label(Productores (N))) pct(fmt(2) label(% en Región))") ///
+        noobs label nomtitle title("Tabla. Composición geográfica depurada - Región `r'") ///
+        note("Nota: Cifras calculadas directamente de los registros de la ENA 2024.")
+}
+eststo clear
 
 
 * ══════════════════════════════════════════════════════════════════════════════
@@ -536,7 +578,7 @@ eststo Modelo5: reg ln_rendimiento ///
 * Tabla comparativa exportada a Word (RTF) y LaTeX (.tex) con nombres exactos de departamentos
 esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
     using "Resultados\Tablas\Tabla_3_Regresiones.rtf", replace ///
-    label star(* 0.10 ** 0.05 *** 0.01) b(4) se(4) nonumbers ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
     mtitles("Modelo 1" "Modelo 2" "Modelo 3" "Modelo 4" "Modelo 5") ///
     title("Tabla 3. Resultados de las estimaciones") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
@@ -550,7 +592,7 @@ esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
 
 esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
     using "Resultados\Tablas\Tabla_3_Regresiones.tex", replace ///
-    label star(* 0.10 ** 0.05 *** 0.01) b(4) se(4) nonumbers ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
     mtitles("Modelo 1" "Modelo 2" "Modelo 3" "Modelo 4" "Modelo 5") ///
     title("Tabla 3. Resultados de las estimaciones") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
@@ -584,29 +626,24 @@ vif
 estat hettest
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XII: MODELO DEFINITIVO CON ERRORES ESTÁNDAR ROBUSTOS
+* PARTE XII: REGRESIÓN ROBUSTA ANTES DE DEPURAR SINGLETON (Muestra N=1,992)
 * ══════════════════════════════════════════════════════════════════════════════
-* vce(robust) corrige la heterocedasticidad detectada en la Parte XI,
-* garantizando que los errores estándar y las pruebas t sean válidos.
-* El efecto porcentual exacto de X1 es: (exp(β) - 1) × 100
+* Tras verificar heterocedasticidad con Breusch-Pagan, estimamos primero el modelo
+* con vce(robust) sobre la muestra completa de referencia (1,992 observaciones,
+* incluyendo el departamento de Ayacucho que tiene solo 1 productor arrocero).
 
 reg ln_rendimiento semillas_certificadas fuente_agua ///
-    sequia ///
-    lluvias_destiempo ///
-    plagas_enfermedades ///
-    otros_factores ///
-    mujer_productora ///
-    educacion_superior ///
-    edad_productor ///
+    sequia lluvias_destiempo plagas_enfermedades otros_factores ///
+    mujer_productora educacion_superior edad_productor ///
     ib14.departamento, vce(robust)
 
-* Exportar el modelo definitivo directamente con esttab a Word/RTF y LaTeX (.tex) con nombres exactos sin prefijos
-eststo Modelo_Robusto
+eststo Mod_Robusto_Con
 
-esttab Modelo_Robusto using "Resultados\Tablas\Modelo_Definitivo.rtf", replace ///
-    label star(* 0.10 ** 0.05 *** 0.01) b(4) se(4) nonumbers ///
-    mtitles("Modelo definitivo") ///
-    title("Tabla 4. Modelo definitivo con errores robustos") ///
+* Exportar la regresión robusta inicial con singleton (N=1,992) a Word y LaTeX
+esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Singleton.rtf", replace ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    mtitles("Robusto (Con Singleton N=1992)") ///
+    title("Tabla 4. Regresión con errores robustos antes de depurar singleton (N=1,992)") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
               3.departamento "Arequipa" 4.departamento "Ayacucho" ///
               5.departamento "Cajamarca" 6.departamento "Huanuco" ///
@@ -616,10 +653,10 @@ esttab Modelo_Robusto using "Resultados\Tablas\Modelo_Definitivo.rtf", replace /
               13.departamento "Piura" 14.departamento "San Martin" ///
               15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante")
 
-esttab Modelo_Robusto using "Resultados\Tablas\Modelo_Definitivo.tex", replace ///
-    label star(* 0.10 ** 0.05 *** 0.01) b(4) se(4) nonumbers ///
-    mtitles("Modelo definitivo") ///
-    title("Tabla 4. Modelo definitivo con errores robustos") ///
+esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Singleton.tex", replace ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    mtitles("Robusto (Con Singleton N=1992)") ///
+    title("Tabla 4. Regresión con errores robustos antes de depurar singleton (N=1,992)") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
               3.departamento "Arequipa" 4.departamento "Ayacucho" ///
               5.departamento "Cajamarca" 6.departamento "Huanuco" ///
@@ -627,11 +664,79 @@ esttab Modelo_Robusto using "Resultados\Tablas\Modelo_Definitivo.tex", replace /
               9.departamento "Lambayeque" 10.departamento "Loreto" ///
               11.departamento "Madre de Dios" 12.departamento "Pasco" ///
               13.departamento "Piura" 14.departamento "San Martin" ///
-              15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante")
+              15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante") ///
+    booktabs alignment(D{.}{.}{-1})
 
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XIII: PRUEBAS DE SIGNIFICANCIA CONJUNTA
+* PARTE XIII: PURIFICACIÓN DEL SINGLETON (CORREIA, 2015) Y MODELO DEFINITIVO N=1,991
+* ══════════════════════════════════════════════════════════════════════════════
+* De acuerdo con Sergio Correia (2015) ("Singletons, Cluster-Robust Standard Errors
+* and Fixed Effects: A Bad Mix"), mantener celdas con 1 sola observación (singletons)
+* distorsiona los grados de libertad en muestras finitas, subestimando los errores
+* estándar robustos y sobrestimando artificialmente la significancia estadística.
+* Al igual que el comando reghdfe que elimina singletons automáticamente, purificamos
+* la muestra borrando el departamento con N=1 (Ayacucho) antes del modelo final.
+
+display as yellow _n "================================================================================"
+display as yellow "PARTE XIII: PURIFICACIÓN DEL SINGLETON SEGÚN CORREIA (2015) - Estándar reghdfe"
+display as yellow "================================================================================"
+
+tempvar conteo_depto
+bysort departamento: gen `conteo_depto' = _N if !missing(departamento)
+count if `conteo_depto' <= 1 & !missing(departamento)
+
+if r(N) > 0 {
+    display as yellow "Eliminando " r(N) ///
+                      " observación(es) unitaria(s) (singleton) en departamento (Ayacucho)"
+    drop if `conteo_depto' <= 1
+}
+drop `conteo_depto'
+
+display as green "Nueva data purificada sin singletons lista para inferencia: N = " _N
+
+* Estimación del modelo robusto definitivo purificado (N=1,991)
+reg ln_rendimiento semillas_certificadas fuente_agua ///
+    sequia lluvias_destiempo plagas_enfermedades otros_factores ///
+    mujer_productora educacion_superior edad_productor ///
+    ib14.departamento, vce(robust)
+
+eststo Mod_Robusto_Sin
+
+* Guardar la base de datos purificada definitiva
+save "Resultados\Base_Procesada\Base_arroz_modelo_purificada.dta", replace
+
+* Exportar la regresión robusta purificada y definitiva (N=1,991) a Word y LaTeX
+esttab Mod_Robusto_Sin using "Resultados\Tablas\Tabla_5_Regresion_Definitiva_Sin_Singleton.rtf", replace ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    mtitles("Modelo Definitivo (Sin Singleton N=1991)") ///
+    title("Tabla 5. Modelo definitivo con errores robustos purificado de singletons (N=1,991)") ///
+    varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
+              3.departamento "Arequipa" 5.departamento "Cajamarca" ///
+              6.departamento "Huanuco" 7.departamento "Junin" ///
+              8.departamento "La Libertad" 9.departamento "Lambayeque" ///
+              10.departamento "Loreto" 11.departamento "Madre de Dios" ///
+              12.departamento "Pasco" 13.departamento "Piura" ///
+              14.departamento "San Martin" 15.departamento "Tumbes" ///
+              16.departamento "Ucayali" _cons "Constante")
+
+esttab Mod_Robusto_Sin using "Resultados\Tablas\Tabla_5_Regresion_Definitiva_Sin_Singleton.tex", replace ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    mtitles("Modelo Definitivo (Sin Singleton N=1991)") ///
+    title("Tabla 5. Modelo definitivo con errores robustos purificado de singletons (N=1,991)") ///
+    varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
+              3.departamento "Arequipa" 5.departamento "Cajamarca" ///
+              6.departamento "Huanuco" 7.departamento "Junin" ///
+              8.departamento "La Libertad" 9.departamento "Lambayeque" ///
+              10.departamento "Loreto" 11.departamento "Madre de Dios" ///
+              12.departamento "Pasco" 13.departamento "Piura" ///
+              14.departamento "San Martin" 15.departamento "Tumbes" ///
+              16.departamento "Ucayali" _cons "Constante") ///
+    booktabs alignment(D{.}{.}{-1})
+
+
+* ══════════════════════════════════════════════════════════════════════════════
+* PARTE XIV: PRUEBAS DE SIGNIFICANCIA CONJUNTA (sobre modelo purificado N=1,991)
 * ══════════════════════════════════════════════════════════════════════════════
 * H0: los coeficientes del bloque son iguales a cero.
 * H1: al menos un coeficiente del bloque es distinto de cero.
