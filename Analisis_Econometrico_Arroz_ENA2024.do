@@ -1,16 +1,15 @@
-/*================================================================================
-  UNIVERSIDAD NACIONAL DE SAN AGUSTÍN DE AREQUIPA
-  Facultad de Economía — Escuela Profesional de Economía
-================================================================================
-  TÍTULO:  Efecto del uso de semillas certificadas sobre el rendimiento
-           agrícola del cultivo de arroz cáscara en las unidades
-           agropecuarias del Perú (ENA, 2024)
+/*  
+TÍTULO:  Efecto del uso de semillas certificadas sobre el rendimiento
+         agrícola del cultivo de arroz cáscara en las unidades
+         agropecuarias del Perú (ENA, 2024)
 
   BASE:    Encuesta Nacional Agropecuaria (ENA) 2024
 
-  CAPÍTULOS / ARCHIVOS DE DATOS UTILIZADOS (ENA 2024):
-    • Capítulo 200 (Partes A y B) [03_CAP200AB.dta] → Producción y prácticas (Y, X1, riego, clima)
-    • Capítulo 1100               [19_CAP1100.dta]  → Características del productor/a (sexo, edad, educ.)
+  MÓDULOS Y CAPÍTULOS
+	  Modulo 1895
+		• Capítulo 200 (Partes A y B) [03_CAP200AB.dta] → Producción y prácticas (Y, X1, riego, clima)
+	  Modulo 1911
+		• Capítulo 1100               [19_CAP1100.dta]  → Características del productor/a (sexo, edad, educ.)
 
   ESTRUCTURA DEL DO-FILE:
   ───────────────────────────────────────────────
@@ -20,15 +19,16 @@
    IV.   Construcción de variables
    V.    Base final (depuración y guardado)
    VI.   Estadísticas descriptivas
-   VII.  Análisis bivariado (gráficos comparativos)
-   VIII. Tablas descriptivas (exportación RTF)
-   IX.   Matriz de correlaciones
+   VII.  Tablas descriptivas generales (exportación RTF — Tabla 1)
+   VIII. Tablas de frecuencias por región natural y composición geográfica
+   IX.   Matriz de correlaciones (Tabla 2)
    X.    Modelos OLS anidados (comparación)
    XI.   Diagnósticos del modelo
-   XII.  Modelo definitivo (errores robustos)
-   XIII. Pruebas de validez estadística conjunta
-  ───────────────────────────────────────────────
-================================================================================*/
+   XII.  Regresión robusta antes de depurar singleton (N=1,992)
+   XIII. Modelo definitivo purificado de singleton (N=1,991)
+   XIV.  Pruebas de validez estadística conjunta
+   XV.   Análisis bivariado y gráficos definitivos sobre muestra purificada (N=1,991)
+  ───────────────────────────────────────────────*/
 
 
 * ══════════════════════════════════════════════════════════════════════════════
@@ -71,15 +71,16 @@ capture confirm file "973-Modulo1911\19_CAP1100.dta"
 local rc2 = _rc
 
 if (`rc1' != 0 | `rc2' != 0) {
-    display as yellow _n "No se detectaron las carpetas oficiales del INEI en el directorio."
-    display as yellow "   Iniciando descarga y descompresión automática (ENA 2024)..."
+    display as yellow _n "No se detectaron las carpetas."
+    display as yellow "Iniciando descarga y descompresión automática (ENA 2024)..."
     do "Descarga_Microdatos_ENA2024.do"
 }
 
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE II: CARGA Y MERGE DE LOS DOS CAPÍTULOS (ARCHIVOS .DTA)
+* PARTE II: CARGA Y MERGE DE LOS DOS CAPÍTULOS (CUESTIONARIOS)
 * ══════════════════════════════════════════════════════════════════════════════
+
 * Se unen AMBOS archivos de datos antes de cualquier limpieza, para tener todas
 * las variables disponibles desde el inicio y evitar perder observaciones después.
 
@@ -111,7 +112,7 @@ drop _merge
 
 * ══════════════════════════════════════════════════════════════════════════════
 * PARTE III: LIMPIEZA DE DATOS Y SELECCIÓN DE LA MUESTRA
-* ══════════════════════════════════════════════════════════════════════════════
+
 * Se aplican los filtros que definen la muestra de trabajo DESPUÉS del merge.
 
 * ── Filtro 1: Solo cultivo de ARROZ CÁSCARA ─────────────────────────────────
@@ -257,11 +258,8 @@ label variable departamento "Departamento"
 fvset base 14 departamento
 
 * ── C3.1. Región natural (Costa, Sierra, Selva) ──────────────────────────────
-* Se toma 100% directo de los registros oficiales de la base de datos de la ENA 2024 (Cap. 200, Var 12):
-capture confirm variable region
-if _rc {
-    clonevar region = REGION
-}
+capture drop region
+gen region = REGION
 label define lblregion 1 "Costa" 2 "Sierra" 3 "Selva", replace
 label values region lblregion
 label variable region "Región natural"
@@ -339,38 +337,24 @@ drop  if missing(semillas_certificadas)
 * ──────────────────────────────────────────────────────────────────────────────
 * 4. DEPURACIÓN DE CELDAS O GRUPOS UNITARIOS (Singletons / N <= 1)
 * ──────────────────────────────────────────────────────────────────────────────
-* Según Correia (2015), las categorías con una sola observación (singletons) en
-* modelos con efectos fijos o dummies deben eliminarse obligatoriamente.
-* NOTA METODOLÓGICA PARA EL PAPER:
-* Al tener el departamento de Ayacucho una sola observación (N_Ayacucho = 1),
-* MCO asigna a su dummy un coeficiente que hace el residuo de esa fila exactamente 0 (sobreajuste).
-* Por propiedad de MCO (Frisch-Waugh-Lovell), los coeficientes estimados de todas las demás variables
-* (Beta) son idénticos (no cambian en nada) se mantenga o se elimine la fila unitaria de Ayacucho.
-* Sin embargo, mantenerla incrementa artificialmente N y el número de clústeres, distorsionando
-* el factor de corrección de muestra finita de Huber-White y subestimando los errores estándar robustos.
-* Por tanto, eliminar el singleton purifica la inferencia estadística sin alterar las pendientes.
-
-* NOTA METODOLÓGICA (CORREIA 2015):
-* En esta etapa se conservan las 1,992 observaciones iniciales (incluyendo Ayacucho N=1)
-* para poder estimar y exportar primero la regresión robusta de referencia (Tabla 4).
-* La purificación exacta del singleton según Correia (2015) ("Singletons, Cluster-Robust
-* Standard Errors and Fixed Effects: A Bad Mix") se aplicará explícitamente en la
-* Parte XIII, exportando luego el modelo definitivo purificado con N = 1,991 (Tabla 5).
 
 di "Observaciones válidas de referencia antes del filtrado de singletons: " _N
 
-* Conservar solo las variables necesarias
-* NOMBREDD  → variable de texto (solo referencia visual, no entra al modelo)
-* departamento → variable numérica con etiquetas, usada con i.departamento en la regresión
-* Se conservan ambas: NOMBREDD para saber el nombre del departamento al inspeccionar datos,
-* y departamento para la regresión. CCDD se conserva como identificador original.
+* Conservar solo las variables necesarias para los análisis posteriores:
+* ── 1. Variables del modelo econométrico (OLS y Robusto):
+*       ln_rendimiento, semillas_certificadas, fuente_agua, sequia, lluvias_destiempo,
+*       plagas_enfermedades, otros_factores, mujer_productora, educacion_superior,
+*       edad_productor y departamento (para efectos fijos espaciales i.departamento).
+* ── 2. Variables auxiliares para Tablas Descriptivas y Gráficos (Partes VI, VIII y XV):
+*       region (Costa/Sierra/Selva), NOMBREDD/CCDD (nombres), produccion_kg y rendimiento.
+*       NOTA: 'region' NO entra al modelo econométrico para evitar multicolinealidad con departamento.
 keep ln_rendimiento semillas_certificadas fuente_agua ///
      sequia lluvias_destiempo plagas_enfermedades otros_factores ///
      mujer_productora educacion_superior edad_productor ///
      departamento region ///
      CCDD NOMBREDD produccion_kg rendimiento
 
-* Ordenar columnas igual que la regresión: Y → X1 → controles → depto → resto al final
+* Ordenar columnas: Y → X1 → controles → depto/región → variables auxiliares al final
 order ln_rendimiento semillas_certificadas fuente_agua ///
       sequia lluvias_destiempo plagas_enfermedades otros_factores ///
       mujer_productora educacion_superior edad_productor ///
@@ -423,74 +407,34 @@ tab region
 * Tabla descriptiva por región natural en consola (Costa, Sierra, Selva)
 tabstat rendimiento produccion_kg ln_rendimiento semillas_certificadas fuente_agua ///
         sequia lluvias_destiempo plagas_enfermedades otros_factores ///
-        mujer_productora educacion_superior edad_productor, ///
+        mujer_productora educacion_superior edad_productor if departamento != 4, ///
         by(region) statistics(mean sd n) format(%9.2f) columns(statistics)
 
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE VII: ANÁLISIS BIVARIADO (GRÁFICOS COMPARATIVOS)
-* ══════════════════════════════════════════════════════════════════════════════
-* Comparaciones del rendimiento entre grupos, antes del modelo de regresión.
-
-* Variable auxiliar de grupo etario (SOLO para gráficos, NO entra al modelo)
-summarize edad_productor, detail
-gen productor_mayor = .
-replace productor_mayor = 1 if edad_productor >= r(p50) & edad_productor < .
-replace productor_mayor = 0 if edad_productor < r(p50)
-label variable productor_mayor "Productor/a mayor (edad >= mediana)"
-label define lbledad 0 "Joven" 1 "Mayor"
-label values productor_mayor lbledad
-
-* Rendimiento según semillas certificadas (gráfico central de la investigación)
-graph bar (mean) rendimiento, over(semillas_certificadas) ///
-    title("Rendimiento promedio según uso de semillas certificadas") ///
-    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
-graph export "Resultados\Graficos\Bivariado_semillas.png", replace
-
-* Rendimiento según nivel educativo
-graph bar (mean) rendimiento, over(educacion_superior) ///
-    title("Rendimiento promedio según nivel educativo") ///
-    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
-graph export "Resultados\Graficos\Bivariado_educacion.png", replace
-
-* Rendimiento según grupo etario
-graph bar (mean) rendimiento, over(productor_mayor) ///
-    title("Rendimiento promedio según edad del productor/a") ///
-    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
-graph export "Resultados\Graficos\Bivariado_edad.png", replace
-
-* Rendimiento por departamento (barras horizontales por la cantidad de categorías)
-graph hbar (mean) rendimiento, over(NOMBREDD, sort(1)) ///
-    title("Rendimiento promedio por departamento") ///
-    ytitle("Rendimiento promedio (kg/ha)")
-graph export "Resultados\Graficos\Bivariado_departamento.png", replace
-
-drop productor_mayor   // Ya no se necesita; la edad continua va al modelo
-
-
-* ══════════════════════════════════════════════════════════════════════════════
-* PARTE VIII: TABLAS DESCRIPTIVAS (EXPORTACIÓN RTF — Tabla 1)
+* PARTE VII: TABLAS DESCRIPTIVAS GENERALES (EXPORTACIÓN RTF — Tabla 1)
 * ══════════════════════════════════════════════════════════════════════════════
 
 local vars_finales ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
     mujer_productora educacion_superior edad_productor
 
-estpost summarize `vars_finales'
+estpost summarize `vars_finales' if departamento != 4
 
 esttab using "Resultados\Tablas\Tabla_1_Descriptiva_General.rtf", replace ///
     cells("mean(fmt(4)) sd(fmt(4)) min(fmt(4)) max(fmt(4))") ///
     label nonumber noobs nomtitle ///
     collabels("Media" "Desv. Est." "Mín." "Máx.") ///
-    title("Tabla 1. Estadísticas descriptivas")
+    title("Tabla 1. Estadísticas descriptivas (N=1,991)")
 
 
-* ── Effectsstadísticas Descriptivas por Región Nativa ──
+* ══════════════════════════════════════════════════════════════════════════════
+* PARTE VIII: TABLAS DE FRECUENCIAS POR REGIÓN NATURAL Y COMPOSICIÓN GEOGRÁFICA
+* ══════════════════════════════════════════════════════════════════════════════
+
+* ── Exportación 100% Automática de Tabulación de Frecuencia por Región Natural ──
 eststo clear
-* ── Exportación 100% Automática de Tabulación de Frecuencia por Región Nativa ──
-* Exporta exactamente la salida de ". tab region" (Freq. | Percent | Cum.)
-eststo clear
-estpost tabulate region
+estpost tabulate region if departamento != 4
 esttab using "Resultados\Tablas\Tabla_Frecuencia_Region.rtf", replace ///
     cells("b(label(Freq.)) pct(fmt(2) label(Percent)) cumpct(fmt(2) label(Cum.))") ///
     noobs label nomtitle ///
@@ -506,13 +450,12 @@ esttab using "Resultados\Tablas\Tabla_Frecuencia_Region.tex", replace ///
 eststo clear
 
 * ── Exportación 100% Automática de Composición Geográfica (3 Tablas por Región) ──
-* Se calcula dinámicamente desde los registros del INEI sin matrices manuales ni redundancia
 eststo clear
 foreach r in 1 2 3 {
-    estpost tabulate departamento if region == `r'
+    estpost tabulate departamento if region == `r' & departamento != 4
     esttab using "Resultados\Tablas\Tabla_Composicion_Region_`r'.rtf", replace ///
         cells("b(label(Productores (N))) pct(fmt(2) label(% en Región))") ///
-        noobs label nomtitle title("Tabla. Composición geográfica depurada - Región `r'") ///
+        noobs label nomtitle title("Tabla. Composición geográfica depurada - Región `r' (N=1,991)") ///
         note("Nota: Cifras calculadas directamente de los registros de la ENA 2024.")
 }
 eststo clear
@@ -521,127 +464,70 @@ eststo clear
 * ══════════════════════════════════════════════════════════════════════════════
 * PARTE IX: MATRIZ DE CORRELACIONES (Tabla 2)
 * ══════════════════════════════════════════════════════════════════════════════
-* Identifica relaciones lineales preliminares y posible multicolinealidad
-* (correlaciones > |0.80| entre explicativas merecen revisión con VIF).
-
 pwcorr ///
     ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
-    mujer_productora educacion_superior edad_productor, ///
+    mujer_productora educacion_superior edad_productor if departamento != 4, ///
     sig star(0.05)
 
 * Exportación
 estpost correlate ///
     ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
-    mujer_productora educacion_superior edad_productor
+    mujer_productora educacion_superior edad_productor if departamento != 4
 
 esttab using "Resultados\Tablas\Tabla_2_Matriz_Correlaciones.rtf", replace ///
     unstack not ///
-    title("Tabla 2. Matriz de correlaciones")
+    title("Tabla 2. Matriz de correlaciones (N=1,991)")
 
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE X: MODELOS OLS ANIDADOS — Tabla comparativa (Tabla 3)
+* PARTE X: MODELOS OLS ANIDADOS (COMPARACIÓN)
 * ══════════════════════════════════════════════════════════════════════════════
-* Se incorporan controles progresivamente para observar la estabilidad del
-* coeficiente de semillas_certificadas. Si cambia mucho al agregar controles,
-* hay indicios de sesgo por variables omitidas en los modelos más simples.
-
 eststo clear
 
-eststo Modelo1: reg ln_rendimiento ///
-    semillas_certificadas
+eststo Modelo1: reg ln_rendimiento semillas_certificadas
 
-eststo Modelo2: reg ln_rendimiento ///
-    semillas_certificadas ///
-    fuente_agua
-
-eststo Modelo3: reg ln_rendimiento ///
-    semillas_certificadas ///
-    fuente_agua ///
+eststo Modelo2: reg ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores
 
-eststo Modelo4: reg ln_rendimiento ///
-    semillas_certificadas ///
-    fuente_agua ///
+eststo Modelo3: reg ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
     mujer_productora educacion_superior edad_productor
 
-eststo Modelo5: reg ln_rendimiento ///
-    semillas_certificadas ///
-    fuente_agua ///
+eststo Modelo4: reg ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
-    mujer_productora educacion_superior edad_productor ///
-    ib14.departamento
-
-* Tabla comparativa exportada a Word (RTF) y LaTeX (.tex) con nombres exactos de departamentos
-esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
-    using "Resultados\Tablas\Tabla_3_Regresiones.rtf", replace ///
-    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
-    mtitles("Modelo 1" "Modelo 2" "Modelo 3" "Modelo 4" "Modelo 5") ///
-    title("Tabla 3. Resultados de las estimaciones") ///
-    varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
-              3.departamento "Arequipa" 4.departamento "Ayacucho" ///
-              5.departamento "Cajamarca" 6.departamento "Huanuco" ///
-              7.departamento "Junin" 8.departamento "La Libertad" ///
-              9.departamento "Lambayeque" 10.departamento "Loreto" ///
-              11.departamento "Madre de Dios" 12.departamento "Pasco" ///
-              13.departamento "Piura" 14.departamento "San Martin" ///
-              15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante")
-
-esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
-    using "Resultados\Tablas\Tabla_3_Regresiones.tex", replace ///
-    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
-    mtitles("Modelo 1" "Modelo 2" "Modelo 3" "Modelo 4" "Modelo 5") ///
-    title("Tabla 3. Resultados de las estimaciones") ///
-    varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
-              3.departamento "Arequipa" 4.departamento "Ayacucho" ///
-              5.departamento "Cajamarca" 6.departamento "Huanuco" ///
-              7.departamento "Junin" 8.departamento "La Libertad" ///
-              9.departamento "Lambayeque" 10.departamento "Loreto" ///
-              11.departamento "Madre de Dios" 12.departamento "Pasco" ///
-              13.departamento "Piura" 14.departamento "San Martin" ///
-              15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante")
+    mujer_productora educacion_superior edad_productor ib14.departamento
 
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XI: DIAGNÓSTICOS DEL MODELO COMPLETO (Modelo 5)
+* PARTE XI: DIAGNÓSTICOS DEL MODELO
 * ══════════════════════════════════════════════════════════════════════════════
-* Se re-estima el Modelo 5 como base para las pruebas de diagnóstico.
-
-reg ln_rendimiento semillas_certificadas fuente_agua ///
-    sequia lluvias_destiempo plagas_enfermedades otros_factores ///
-    mujer_productora educacion_superior edad_productor ///
-    ib14.departamento
 
 * ── Multicolinealidad (VIF) ──────────────────────────────────────────────────
-* VIF < 5 → sin problema · 5–10 → moderado · ≥ 10 → grave
 vif
 
 * ── Heterocedasticidad (Breusch-Pagan) ───────────────────────────────────────
-* H₀: varianza constante (homocedasticidad)
-* H₁: varianza no constante (heterocedasticidad)
-* Si p ≤ 0.05 → se rechaza H₀ → usar errores robustos en el modelo definitivo
 estat hettest
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XII: REGRESIÓN ROBUSTA ANTES DE DEPURAR SINGLETON (Muestra N=1,992)
+* PARTE XII: MODELO DEFINITIVO (ERRORES ROBUSTOS)
 * ══════════════════════════════════════════════════════════════════════════════
-* Tras verificar heterocedasticidad con Breusch-Pagan, estimamos primero el modelo
-* con vce(robust) sobre la muestra completa de referencia (1,992 observaciones,
-* incluyendo el departamento de Ayacucho que tiene solo 1 productor arrocero).
 
+* 1. Estimación robusta inicial de referencia antes de depurar singleton (N=1,992)
 reg ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
     mujer_productora educacion_superior edad_productor ///
     ib14.departamento, vce(robust)
 
 eststo Mod_Robusto_Con
+* Se actualiza Modelo4 con errores robustos para la Gran Tabla 3 Unificada comparativa:
+eststo Modelo4
 
-* Exportar la regresión robusta inicial con singleton (N=1,992) a Word y LaTeX
+* Exportar la regresión robusta inicial con singleton (N=1,992)
 esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Singleton.rtf", replace ///
     label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    stats(N r2 r2_a, fmt(0 4 4) labels("Observaciones" "R-cuadrado" "R-cuadrado ajustado")) ///
     mtitles("Robusto (Con Singleton N=1992)") ///
     title("Tabla 4. Regresión con errores robustos antes de depurar singleton (N=1,992)") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
@@ -655,6 +541,7 @@ esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Si
 
 esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Singleton.tex", replace ///
     label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    stats(N r2 r2_a, fmt(0 4 4) labels("Observaciones" "R-cuadrado" "R-cuadrado ajustado")) ///
     mtitles("Robusto (Con Singleton N=1992)") ///
     title("Tabla 4. Regresión con errores robustos antes de depurar singleton (N=1,992)") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
@@ -667,19 +554,14 @@ esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Si
               15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante") ///
     booktabs alignment(D{.}{.}{-1})
 
-
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XIII: PURIFICACIÓN DEL SINGLETON (CORREIA, 2015) Y MODELO DEFINITIVO N=1,991
+* PARTE XIII: MODELO DEFINITIVO PURIFICADO DE SINGLETON (N=1,991)
 * ══════════════════════════════════════════════════════════════════════════════
-* De acuerdo con Sergio Correia (2015) ("Singletons, Cluster-Robust Standard Errors
-* and Fixed Effects: A Bad Mix"), mantener celdas con 1 sola observación (singletons)
-* distorsiona los grados de libertad en muestras finitas, subestimando los errores
-* estándar robustos y sobrestimando artificialmente la significancia estadística.
 * Al igual que el comando reghdfe que elimina singletons automáticamente, purificamos
 * la muestra borrando el departamento con N=1 (Ayacucho) antes del modelo final.
 
 display as yellow _n "================================================================================"
-display as yellow "PARTE XIII: PURIFICACIÓN DEL SINGLETON SEGÚN CORREIA (2015) - Estándar reghdfe"
+display as yellow "PURIFICACIÓN DEL SINGLETON SEGÚN CORREIA (2015) - Estándar reghdfe"
 display as yellow "================================================================================"
 
 tempvar conteo_depto
@@ -702,6 +584,7 @@ reg ln_rendimiento semillas_certificadas fuente_agua ///
     ib14.departamento, vce(robust)
 
 eststo Mod_Robusto_Sin
+eststo Modelo5
 
 * Guardar la base de datos purificada definitiva
 save "Resultados\Base_Procesada\Base_arroz_modelo_purificada.dta", replace
@@ -709,6 +592,7 @@ save "Resultados\Base_Procesada\Base_arroz_modelo_purificada.dta", replace
 * Exportar la regresión robusta purificada y definitiva (N=1,991) a Word y LaTeX
 esttab Mod_Robusto_Sin using "Resultados\Tablas\Tabla_5_Regresion_Definitiva_Sin_Singleton.rtf", replace ///
     label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    stats(N r2 r2_a, fmt(0 4 4) labels("Observaciones" "R-cuadrado" "R-cuadrado ajustado")) ///
     mtitles("Modelo Definitivo (Sin Singleton N=1991)") ///
     title("Tabla 5. Modelo definitivo con errores robustos purificado de singletons (N=1,991)") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
@@ -722,6 +606,7 @@ esttab Mod_Robusto_Sin using "Resultados\Tablas\Tabla_5_Regresion_Definitiva_Sin
 
 esttab Mod_Robusto_Sin using "Resultados\Tablas\Tabla_5_Regresion_Definitiva_Sin_Singleton.tex", replace ///
     label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    stats(N r2 r2_a, fmt(0 4 4) labels("Observaciones" "R-cuadrado" "R-cuadrado ajustado")) ///
     mtitles("Modelo Definitivo (Sin Singleton N=1991)") ///
     title("Tabla 5. Modelo definitivo con errores robustos purificado de singletons (N=1,991)") ///
     varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
@@ -734,32 +619,109 @@ esttab Mod_Robusto_Sin using "Resultados\Tablas\Tabla_5_Regresion_Definitiva_Sin
               16.departamento "Ucayali" _cons "Constante") ///
     booktabs alignment(D{.}{.}{-1})
 
+* ── EXPORTACIÓN UNIFICADA DE LOS 5 MODELOS EN UNA SOLA TABLA COMPARATIVA ─────
+* Combina Modelos 1 al 4 (N=1,992) con el Modelo 5 Robusto purificado (N=1,991).
+* En la columna del Modelo 5, Ayacucho aparece vacío/cero al haberse depurado.
+esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
+    using "Resultados\Tablas\Tabla_3_Regresiones_Unificada.rtf", replace ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    stats(N r2 r2_a, fmt(0 4 4) labels("Observaciones" "R-cuadrado" "R-cuadrado ajustado")) ///
+    mtitles("Modelo 1" "Modelo 2" "Modelo 3" "Modelo 4 (Robusto)" "Modelo 5 (Robusto)") ///
+    title("Tabla 3. Evolución y comparación unificada de modelos de regresión (1 al 5)") ///
+    varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
+              3.departamento "Arequipa" 4.departamento "Ayacucho" ///
+              5.departamento "Cajamarca" 6.departamento "Huanuco" ///
+              7.departamento "Junin" 8.departamento "La Libertad" ///
+              9.departamento "Lambayeque" 10.departamento "Loreto" ///
+              11.departamento "Madre de Dios" 12.departamento "Pasco" ///
+              13.departamento "Piura" 14.departamento "San Martin" ///
+              15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante") ///
+    note("Nota: Modelos 1-3 estimados por MCO estándar (N=1,992). Modelos 4 y 5 reportan errores estándar robustos heterocedásticos (vce robust). El Modelo 4 evalúa la muestra completa (N=1,992) y el Modelo 5 depura el singleton de Ayacucho (N=1,991 según Correia 2015).")
+
+esttab Modelo1 Modelo2 Modelo3 Modelo4 Modelo5 ///
+    using "Resultados\Tablas\Tabla_3_Regresiones_Unificada.tex", replace ///
+    label star(* 0.10 ** 0.05 *** 0.01) b(5) se(5) nonumbers ///
+    stats(N r2 r2_a, fmt(0 4 4) labels("Observaciones" "R-cuadrado" "R-cuadrado ajustado")) ///
+    mtitles("Modelo 1" "Modelo 2" "Modelo 3" "Modelo 4 (Robusto)" "Modelo 5 (Robusto)") ///
+    title("Tabla 3. Evolución y comparación unificada de modelos de regresión (1 al 5)") ///
+    varlabels(1.departamento "Amazonas" 2.departamento "Ancash" ///
+              3.departamento "Arequipa" 4.departamento "Ayacucho" ///
+              5.departamento "Cajamarca" 6.departamento "Huanuco" ///
+              7.departamento "Junin" 8.departamento "La Libertad" ///
+              9.departamento "Lambayeque" 10.departamento "Loreto" ///
+              11.departamento "Madre de Dios" 12.departamento "Pasco" ///
+              13.departamento "Piura" 14.departamento "San Martin" ///
+              15.departamento "Tumbes" 16.departamento "Ucayali" _cons "Constante") ///
+    note("Nota: Modelos 1-3 estimados por MCO estándar (N=1,992). Modelos 4 y 5 reportan errores estándar robustos heterocedásticos (vce robust). El Modelo 4 evalúa la muestra completa (N=1,992) y el Modelo 5 depura el singleton de Ayacucho (N=1,991 según Correia 2015).") ///
+    booktabs alignment(D{.}{.}{-1})
+
 
 * ══════════════════════════════════════════════════════════════════════════════
-* PARTE XIV: PRUEBAS DE SIGNIFICANCIA CONJUNTA (sobre modelo purificado N=1,991)
+* PARTE XIV: PRUEBAS DE VALIDEZ ESTADÍSTICA CONJUNTA
 * ══════════════════════════════════════════════════════════════════════════════
 * H0: los coeficientes del bloque son iguales a cero.
 * H1: al menos un coeficiente del bloque es distinto de cero.
 * Si Prob > F <= 0.05, se rechaza H0 y el bloque es significativo.
+* Nota: Se evalúa directamente sobre el Modelo 5 (Mod_Robusto_Sin) ya en memoria.
 
-quietly reg ln_rendimiento semillas_certificadas fuente_agua ///
-    sequia lluvias_destiempo plagas_enfermedades otros_factores ///
-    mujer_productora educacion_superior edad_productor ///
-    ib14.departamento, vce(robust)
-
-* Factores climáticos
-test sequia lluvias_destiempo plagas_enfermedades otros_factores
-
-* Características del productor/a
-test mujer_productora educacion_superior edad_productor
-
-* Efectos fijos departamentales
-testparm i.departamento
-
-* Significancia conjunta global
 test semillas_certificadas fuente_agua sequia lluvias_destiempo ///
     plagas_enfermedades otros_factores mujer_productora ///
     educacion_superior edad_productor, mtest(noadjust)
+
+
+* ══════════════════════════════════════════════════════════════════════════════
+* PARTE XV: ANÁLISIS BIVARIADO Y GRÁFICOS DEFINITIVOS SOBRE MUESTRA PURIFICADA (N=1,991)
+* ══════════════════════════════════════════════════════════════════════════════
+* Todos los gráficos de la investigación se ejecutan después de haber definido el
+* modelo final y haber purificado el singleton según Correia (2015) (N=1,991).
+
+* ── 1. Producción y Rendimiento por Región Natural (Costa, Sierra, Selva) ────
+graph bar (sum) produccion_kg, over(region) ///
+    title("Producción total de arroz por región natural (N=1,991)") ///
+    ytitle("Producción total (kg)") blabel(bar, format(%12.0fc))
+graph export "Resultados\Graficos\Bivariado_produccion_total_region.png", replace
+
+graph bar (mean) produccion_kg, over(region) ///
+    title("Producción promedio por productor según región natural") ///
+    ytitle("Producción promedio (kg/productor)") blabel(bar, format(%9.0f))
+graph export "Resultados\Graficos\Bivariado_produccion_media_region.png", replace
+
+graph bar (mean) rendimiento, over(region) ///
+    title("Rendimiento promedio de arroz según región natural") ///
+    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
+graph export "Resultados\Graficos\Bivariado_rendimiento_region.png", replace
+
+* ── 2. Gráficos Comparativos Clave de las Explicativas (Muestra N=1,991) ─────
+graph bar (mean) rendimiento, over(semillas_certificadas) ///
+    title("Rendimiento promedio según uso de semillas certificadas") ///
+    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
+graph export "Resultados\Graficos\Bivariado_semillas.png", replace
+
+graph bar (mean) rendimiento, over(educacion_superior) ///
+    title("Rendimiento promedio según nivel educativo") ///
+    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
+graph export "Resultados\Graficos\Bivariado_educacion.png", replace
+
+* Variable auxiliar de grupo etario (solo para visualización del gráfico)
+summarize edad_productor, detail
+gen productor_mayor = .
+replace productor_mayor = 1 if edad_productor >= r(p50) & !missing(edad_productor)
+replace productor_mayor = 0 if edad_productor < r(p50) & !missing(edad_productor)
+label variable productor_mayor "Productor/a mayor (edad >= mediana)"
+label define lbledad 0 "Joven" 1 "Mayor", replace
+label values productor_mayor lbledad
+
+graph bar (mean) rendimiento, over(productor_mayor) ///
+    title("Rendimiento promedio según edad del productor/a") ///
+    ytitle("Rendimiento promedio (kg/ha)") blabel(bar, format(%9.0f))
+graph export "Resultados\Graficos\Bivariado_edad.png", replace
+drop productor_mayor
+
+* Rendimiento por departamento (en muestra depurada de singletons)
+graph hbar (mean) rendimiento, over(NOMBREDD, sort(1)) ///
+    title("Rendimiento promedio por departamento depurado (N=1,991)") ///
+    ytitle("Rendimiento promedio (kg/ha)")
+graph export "Resultados\Graficos\Bivariado_departamento.png", replace
 
 
 * ══════════════════════════════════════════════════════════════════════════════
