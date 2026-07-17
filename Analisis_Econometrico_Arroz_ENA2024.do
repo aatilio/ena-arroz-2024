@@ -744,16 +744,6 @@ graph hbar (mean) rendimiento, over(NOMBREDD, sort(1)) ///
     ytitle("Rendimiento promedio (kg/ha)")
 graph export "Resultados\Graficos\Bivariado_departamento.png", replace
 
-
-* ══════════════════════════════════════════════════════════════════════════════
-* NOTA SOBRE ENDOGENEIDAD
-* ══════════════════════════════════════════════════════════════════════════════
-* No se realiza prueba formal de endogeneidad porque no se dispone de una
-* variable instrumental válida en la base final. La prueba estat endogenous
-* solo puede aplicarse después de estimar un modelo IV/2SLS con un instrumento.
-* Por tanto, el modelo se interpreta como asociación condicional.
-
-
 * ══════════════════════════════════════════════════════════════════════════════
 * CIERRE DEL DO-FILE
 
