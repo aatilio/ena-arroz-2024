@@ -41,8 +41,8 @@ set more off
 capture log close
 cls
 
-* Directorio de trabajo (NOTA: cambiar según el equipo)
-cd "D:\UNSA\5 SEMESTER 2026-A\ECONOMETRICS 1\TIF\ena-arroz-2024"
+* Directorio de trabajo (NOTA: reemplazar por la ruta donde guardaste el repositorio)
+cd "C:\Ruta\De\Tu\Carpeta\ena-arroz-2024"
 
 * Carpetas de salida agrupadas dentro de "Resultados"
 capture mkdir "Resultados"

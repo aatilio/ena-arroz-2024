@@ -131,7 +131,7 @@ git clone https://github.com/aatilio/ena-arroz-2024.git
 ### 2. Configurar la ruta de trabajo (`cd`)
 Abre Stata, ve al script **`Analisis_Econometrico_Arroz_ENA2024.do`** y edita la línea de directorio para apuntar a la carpeta local de tu computadora:
 ```stata
-cd "D:\UNSA\5 SEMESTER 2026-A\ECONOMETRICS 1\TIF\ena-arroz-2024"
+cd "C:\Ruta\De\Tu\Carpeta\ena-arroz-2024"
 ```
 
 ### 3. Ejecutar el script principal (`Ctrl + D`)
@@ -145,5 +145,5 @@ Haz clic en **Run** en Stata. El do-file cuenta con un **Interruptor Inteligente
 
 * **Correia, S.** (2015). *Singletons, cluster-robust standard errors and fixed effects: A bad mix.* Technical Note, Duke University, 7(9), 1–7.
 * **FAO & AfricaSeeds.** (2019). *The African Seed Sector: Towards a Master Plan for the Transformation of the African Seed Sector.* Food and Agriculture Organization of the United Nations.
-* **INEI.** (2024). *Encuesta Nacional Agropecuaria (ENA) 2024: Módulos 1895 y 1911 - Microdatos abiertos.* Instituto Nacional de Estadística e Informática.
+* **Instituto Nacional de Estadística e Informática [INEI].** (2024). *Encuesta Nacional Agropecuaria (ENA) 2024: Módulos 1895 y 1911 - Microdatos abiertos y manual de instrumentos de recolección.* INEI. https://www.datosabiertos.gob.pe/dataset/encuesta-nacional-agropecuaria-ena-2024-instituto-nacional-de-estadistica-e-informatica-inei
 * **Takeshima, H., Edeh, H. O., & Ezenwa, O. L.** (2025). Certified seeds availability, use, yields and heterogeneity across agroecological and socioeconomic factors: Insights from nationally-representative farm panel data from Nigeria. *Agricultural Systems*, 223, 104192. https://doi.org/10.1016/j.agsy.2024.104192
