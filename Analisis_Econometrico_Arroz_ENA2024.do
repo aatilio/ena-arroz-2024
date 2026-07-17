@@ -737,4 +737,3 @@ graph export "Resultados\Graficos\Bivariado_departamento.png", replace
 * CIERRE DEL DO-FILE
 
 log close
-
