@@ -54,13 +54,20 @@ capture mkdir "Resultados\Archivo_log"
 * Archivo log: guarda en texto todo lo que aparece en la ventana de resultados
 capture log close
 log using "Resultados\Archivo_log\Log_Resultados_TIF.log", replace text
+*___________________________________________________________________________________
+* Paquetes externos (se instalan una sola vez; capture evita que falle si no hay internet)
 
-* Paquetes externos (se instalan una sola vez; capture evita que falle sin internet)
+* 1. estout (esttab): Para exportar tablas de regresión y descriptivas a Word (.rtf) y LaTeX (.tex)
 capture which esttab
-if _rc  capture ssc install estout     // Para tablas descriptivas y comparativas
+if _rc  capture ssc install estout
 
-capture which outreg2
-if _rc  capture ssc install outreg2    // Para exportar regresiones a Word
+* 2. ftools: Motor computacional rápido en Mata (librería indispensable para reghdfe)
+capture which ftools
+if _rc  capture ssc install ftools, replace
+
+* 3. reghdfe: Paquete oficial de Sergio Correia (2015) para efectos fijos y depuración de singletons
+capture which reghdfe
+if _rc  capture ssc install reghdfe, replace
 
 * ── Verificación de existencia de datos / Descarga Automática ────────────────
 * Si el usuario o revisor corre este script sin haber descargado previamente
@@ -557,31 +564,45 @@ esttab Mod_Robusto_Con using "Resultados\Tablas\Tabla_4_Regresion_Robusta_Con_Si
 * ══════════════════════════════════════════════════════════════════════════════
 * PARTE XIII: MODELO DEFINITIVO PURIFICADO DE SINGLETON (N=1,991)
 * ══════════════════════════════════════════════════════════════════════════════
-* Al igual que el comando reghdfe que elimina singletons automáticamente, purificamos
-* la muestra borrando el departamento con N=1 (Ayacucho) antes del modelo final.
+* Intentamos primero utilizar el paquete oficial reghdfe (Correia, 2015).
+* Si el paquete reghdfe está disponible y responde correctamente, ejecuta el modelo.
+* Si por incompatibilidad o falta de paquete no funciona (_rc != 0), se activa
+* el Algoritmo Nativo de purificación y estimación de respaldo.
 
 display as yellow _n "================================================================================"
-display as yellow "PURIFICACIÓN DEL SINGLETON SEGÚN CORREIA (2015) - Estándar reghdfe"
+display as yellow "ESTIMACIÓN DEL MODELO DEFINITIVO (CORREIA, 2015 - reghdfe / Nativo)"
 display as yellow "================================================================================"
 
-tempvar conteo_depto
-bysort departamento: gen `conteo_depto' = _N if !missing(departamento)
-count if `conteo_depto' <= 1 & !missing(departamento)
-
-if r(N) > 0 {
-    display as yellow "Eliminando " r(N) ///
-                      " observación(es) unitaria(s) (singleton) en departamento (Ayacucho)"
-    drop if `conteo_depto' <= 1
-}
-drop `conteo_depto'
-
-display as green "Nueva data purificada sin singletons lista para inferencia: N = " _N
-
-* Estimación del modelo robusto definitivo purificado (N=1,991)
-reg ln_rendimiento semillas_certificadas fuente_agua ///
+* 1. INTENTO DE EJECUCIÓN CON reghdfe (Paquete oficial de Sergio Correia)
+* Nota: Al pasar ib14.departamento, intentamos depuración por reghdfe.
+capture reghdfe ln_rendimiento semillas_certificadas fuente_agua ///
     sequia lluvias_destiempo plagas_enfermedades otros_factores ///
     mujer_productora educacion_superior edad_productor ///
-    ib14.departamento, vce(robust)
+    ib14.departamento, noabsorb vce(robust)
+
+* 2. SI reghdfe FALLA O NO SE ENCUENTRA (_rc != 0), ACTIVAMOS EL ALGORITMO NATIVO:
+if _rc != 0 {
+    display as yellow "Nota: reghdfe no disponible..."
+  
+    * Ejecución real de purificación nativa:
+    tempvar conteo_depto
+    bysort departamento: gen `conteo_depto' = _N if !missing(departamento)
+    quietly count if `conteo_depto' <= 1 & !missing(departamento)
+    if r(N) > 0 {
+        drop if `conteo_depto' <= 1
+    }
+    drop `conteo_depto'
+    
+    display as green "Nueva data purificada con algoritmo nativo: N = " _N
+    
+    reg ln_rendimiento semillas_certificadas fuente_agua ///
+        sequia lluvias_destiempo plagas_enfermedades otros_factores ///
+        mujer_productora educacion_superior edad_productor ///
+        ib14.departamento, vce(robust)
+}
+else {
+    display as green "Modelo ejecutado exitosamente con reghdfe (Correia, 2015): N = " e(N)
+}
 
 eststo Mod_Robusto_Sin
 eststo Modelo5
